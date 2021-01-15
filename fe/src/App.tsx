@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import { Pools } from './Components/Pools/Pools'
 
-function App() {
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <div className='__top'>
+        <span>APYin</span>
+        <div className='__connect-wallet'>
+          Connect Wallet
+        </div>
+      </div>
+      <span>Aave Historical Returns on Holdings Calculator</span>
+      <div className='__wallet-info'>
+        <div className='__box'>
+          Wallet
+        </div>
+        <div className='__box'>
+          0x4D119445eC81bff24234395cdA1E04113333E389
+        </div>
+      </div>
+      <div className='__pools'>
+        <Pools />
+      </div>
     </div>
-  );
+  )
 }
-
-export default App;
