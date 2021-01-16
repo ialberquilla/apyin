@@ -23,7 +23,7 @@ export const getHistoricalRate = async (reserve) => {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         const reservesCount = result.reserveParamsHistoryItems.length
-        areData = reservesCount
+        areData = reservesCount > 0
         if (areData) timestamp = result.reserveParamsHistoryItems[reservesCount - 1].timestamp
 
         total = [...total, ...result.reserveParamsHistoryItems]
