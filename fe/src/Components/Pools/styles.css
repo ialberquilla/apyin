@@ -1,27 +1,8 @@
-* {
-    box-sizing: border-box;
-}
-.pools__labels {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
 .pools__container {
     width: 100%;
     max-width: 980px;
+    position: relative;
     margin: auto;
-
-}
-
-.pools {
-    width: 100%;
-    max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 18px auto;
-    background-color: #250989;
 }
 
 .pools__heading .pools__container{
@@ -50,10 +31,11 @@
 }
 
 .pools__content.show {
-    height: 300px;
+    height: 200px;
     opacity: 1;
 }
-
-.pools__values {
-
+.pools__croxx{
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
 }

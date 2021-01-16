@@ -1,5 +1,7 @@
 import React from 'react'
+import Croxx from './assets/croxx.svg'
 import './styles.css'
+import { Row } from '../Row/Row'
 
 export type PoolsInput = {
   title: string
@@ -9,24 +11,17 @@ export type PoolsInput = {
 
 export function Pools({ title, active, setActive}: PoolsInput) {
   return (
-    <div className='pools'>
-      <div className='pools__labels'>
-        <div className='pools__assets'>
-          assets
-        </div>
-        <div className='pools__percentage'>
-          %
-        </div>
-        <div className='pools__usd'>
-          $
-        </div>
-      </div>
-
+    <div className=''>
       <div className='pools__values'>
         <div className='pools__heading'>
           <div className='pools__container'>
-            <p>{title}</p>
-            <span onClick={() => setActive(active === title ? 'undefined' : title)}>{active === title ? 'X' : '|||'}</span>
+            <Row asset={title} percentage={20} usd={2000} />
+            <img
+              alt='Expand shrink symbol'
+              className='pools__croxx'
+              onClick={() => setActive(active === title ? 'undefined' : title)}
+              src={Croxx}
+            />
           </div>
         </div>
         <div className={`${active === title ? 'show' : ''} pools__content`}>
