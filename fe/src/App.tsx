@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import './App.css'
 import { Pools } from './Components/Pools/Pools'
 import { Row } from './Components/Row/Row'
+import './App.css'
 
 export const App = () => {
   const [active, setActive] = useState('')
@@ -16,6 +16,7 @@ export const App = () => {
       <hr/>
       <br/>
       <Row asset='asset' percentage='%' usd='$' />
+      <hr/>
       <Pools title='Ether' active={active} setActive={setActive}/>
       <hr/>
       <Pools title='Dai' active={active} setActive={setActive}/>

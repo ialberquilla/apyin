@@ -2,6 +2,7 @@ import React from 'react'
 import Croxx from './assets/croxx.svg'
 import './styles.css'
 import { Row } from '../Row/Row'
+import { TimeChart } from '../TimeChart'
 
 export type PoolsInput = {
   title: string
@@ -9,13 +10,13 @@ export type PoolsInput = {
   setActive: any
 }
 
-export function Pools({ title, active, setActive}: PoolsInput) {
+export function Pools({title, active, setActive}: PoolsInput) {
   return (
     <div className=''>
       <div className='pools__values'>
         <div className='pools__heading'>
           <div className='pools__container'>
-            <Row asset={title} percentage={20} usd={2000} />
+            <Row asset={title} percentage={20} usd={2000}/>
             <img
               alt='Expand shrink symbol'
               className='pools__croxx'
@@ -24,9 +25,12 @@ export function Pools({ title, active, setActive}: PoolsInput) {
             />
           </div>
         </div>
-        <div className={`${active === title ? 'show' : ''} pools__content`}>
-          <div className='pools__container'>
-            <p>stuff</p>
+        <hr/>
+        <div className={`${active === title ? 'show' : ''} pools__content-wrapper`}>
+          <div className='pools__content'>
+            <div className='pools__container'>
+              <TimeChart/>
+            </div>
           </div>
         </div>
       </div>
