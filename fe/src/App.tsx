@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import { Pools } from './Components/Pools/Pools'
 
 export const App = () => {
+  const [active, setActive] = useState('Ether')
   return (
     <div className='App'>
       <div className='__top'>
@@ -12,17 +13,8 @@ export const App = () => {
         </div>
       </div>
       <span>Aave Historical Returns on Holdings Calculator</span>
-      <div className='__wallet-info'>
-        <div className='__box'>
-          Wallet
-        </div>
-        <div className='__box'>
-          0x4D119445eC81bff24234395cdA1E04113333E389
-        </div>
-      </div>
-      <div className='__pools'>
-        <Pools />
-      </div>
+      <Pools title='Ether' active={active} setActive={setActive}/>
+      <Pools title='Dai' active={active} setActive={setActive}/>
     </div>
   )
 }
