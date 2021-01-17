@@ -20,7 +20,7 @@ export const getHistoricalRate = async (reserve) => {
         }
 
         const result = await request(config.GRAPH_API_URL, GET_HISTORICAL_RATE, variables)
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         const reservesCount = result.reserveParamsHistoryItems.length
         areData = reservesCount > 0
