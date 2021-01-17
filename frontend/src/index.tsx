@@ -4,9 +4,16 @@ import './index.css'
 import { App } from './App'
 import reportWebVitals from './reportWebVitals'
 
+import Web3Provider, { Connectors } from 'web3-react'
+const { InjectedConnector } = Connectors
+
+const connectors = { MetaMask: new InjectedConnector({supportedNetworks: [1, 3, 4, 5, 42]}) }
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Web3Provider connectors={connectors}>
+      <App />
+    </Web3Provider>
   </React.StrictMode>,
   document.getElementById('root')
 )

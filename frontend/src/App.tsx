@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import { Pools } from './Components/Pools/Pools'
 import { Row } from './Components/Row/Row'
 import './App.css'
+import { useWeb3Context } from 'web3-react'
 
 export const App = () => {
+  const context = useWeb3Context()
   const [active, setActive] = useState('')
+  console.log(context.account)
+
   return (
     <div className='App'>
-      <div className='__top'>
+      <div className='App__top'>
         <span>APYin</span>
-        <div className='__connect-wallet'>
+        <div
+          onClick={() => context.setFirstValidConnector(['MetaMask'])}
+          className='App__connect-wallet'
+        >
           Connect Wallet
         </div>
       </div>
