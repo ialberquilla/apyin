@@ -15,11 +15,13 @@ export const App = () => {
       </div>
       <hr/>
       <br/>
-      <Row asset='asset' percentage='%' usd='$' />
+      <Row asset='asset' percentage='%' usd='$' link=''/>
       <hr/>
-      <Pools title='Ether' active={active} setActive={setActive}/>
-      <hr/>
-      <Pools title='Dai' active={active} setActive={setActive}/>
+      <div className='pools__wrapper'>
+        <Pools title='Ether' active={active} setActive={setActive}/>
+        <hr/>
+        <Pools title='Dai' active={active} setActive={setActive}/>
+      </div>
     </div>
   )
 }

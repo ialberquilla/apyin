@@ -21,7 +21,7 @@ export const TimeChart = () => {
           name: 'AAPL High',
           x: data.map((datum: any) => datum.Date),
           y: data.map((datum: any) => datum.AAPL.High),
-          line: {color: '#17BECF'}
+          line: {color: '#9284c4'}
         }, {
           type: "scatter",
           mode: "lines",
@@ -40,28 +40,16 @@ export const TimeChart = () => {
   const layout = {
     // title: 'Time Series with Rangeslider',
     margin: {
-      l: 40
+      l: 40,
+      t: 40,
+      b: 40
     },
     xaxis: {
       autorange: true,
       color: '#D83249',
       range: ['2015-02-17', '2017-02-16'],
       rangeselector: {
-        buttons: [
-          {
-            count: 1,
-            label: '1m',
-            step: 'month',
-            stepmode: 'backward'
-          },
-          {
-            count: 6,
-            label: '6m',
-            step: 'month',
-            stepmode: 'backward'
-          },
-          {step: 'all'}
-        ]
+        buttons: {visible: false}
       },
       rangeslider: {range: ['2015-02-17', '2017-02-16']},
       type: 'date'
@@ -72,10 +60,10 @@ export const TimeChart = () => {
       range: [86.8700008333, 138.870004167],
       type: 'linear'
     },
-    width: 600,
-    height: 400,
+    width: 500,
+    height: 300,
     plot_bgcolor:"#111112",
-    paper_bgcolor:"#250989"
+    paper_bgcolor:"#111112"
   };
   return <Plot
     data={data}

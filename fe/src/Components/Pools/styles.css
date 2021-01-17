@@ -22,7 +22,7 @@
 }
 
 .pools__content {
-    background: #250989;
+    background: #130545;
     width: 980px;
     display: flex;
     justify-content: center;
@@ -37,10 +37,18 @@
     justify-content: center;
 }
 .pools__content-wrapper.show {
-    height: 500px;
+    height: 300px;
     opacity: 1;
 }
 
+.pools__wrapper {
+    overflow: auto;
+}
+.pools__wrapper::-webkit-scrollbar-thumb:vertical
+{
+    background-color: #250989;
+    position: absolute;
+}
 
 .pools__croxx{
     cursor: pointer;

@@ -1,11 +1,15 @@
 .row__grid {
     display: grid;
     width: 980px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr .4fr;
     margin: 20px 0;
 }
 
 .row__wrapper {
     display: flex;
     justify-content: center;
+}
+
+.row__link {
+    cursor: pointer;
 }

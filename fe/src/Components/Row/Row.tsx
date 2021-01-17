@@ -3,11 +3,12 @@ import './styles.css'
 
 export type RowInput = {
   asset: any
+  link: any
   percentage: any
   usd: any
 }
 
-export function Row ({ asset, percentage, usd }: RowInput) {
+export function Row ({ asset, link, percentage, usd }: RowInput) {
   return (
     <div className='row__wrapper'>
       <div className='row__grid'>
@@ -19,6 +20,9 @@ export function Row ({ asset, percentage, usd }: RowInput) {
         </div>
         <div className='row__usd'>
           {usd}
+        </div>
+        <div className='row__link'>
+          {link}
         </div>
       </div>
     </div>
