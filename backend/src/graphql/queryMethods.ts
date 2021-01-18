@@ -1,4 +1,4 @@
-import { GET_RESERVES, GET_HISTORICAL_RATE } from './querys'
+import { GET_RESERVES, GET_HISTORICAL_RATE, GET_HISTORICAL_BALANCES } from './querys'
 import { request } from 'graphql-request'
 import config from '../config'
 
@@ -30,4 +30,9 @@ export const getHistoricalRate = async (reserve) => {
     }
 
     return total
+}
+
+
+export const getAccountHistory = async () => {
+    return request(config.BIT_QUERY_URL, GET_HISTORICAL_BALANCES)
 }

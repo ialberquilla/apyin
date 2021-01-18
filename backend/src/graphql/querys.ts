@@ -1,4 +1,4 @@
-export const GET_RESERVES =`
+export const GET_RESERVES = `
 query getReserves {
   reserves{
     id
@@ -8,7 +8,7 @@ query getReserves {
 `;
 
 
-export const GET_HISTORICAL_RATE =`
+export const GET_HISTORICAL_RATE = `
 query getHistoricalRate ($timestamp: Int!, $reserve: String!){   
     reserveParamsHistoryItems (
         first:1000, 
@@ -29,3 +29,27 @@ query getHistoricalRate ($timestamp: Int!, $reserve: String!){
     } 
    }
 `;
+
+
+export const GET_HISTORICAL_BALANCES = `
+{
+  ethereum {
+    address(address: {is: "0xe4509F2ce63DED82e74e9e7E648c1A69e90cD2C4"}) {
+      balances {
+        value
+        currency {
+          address
+          name
+          tokenId
+          tokenType
+        }
+        history {
+          block
+          timestamp
+          transferAmount
+          value
+        }
+      }
+    }
+  }
+}`
