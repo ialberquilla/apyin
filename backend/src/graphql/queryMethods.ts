@@ -2,6 +2,7 @@ import { GET_RESERVES, GET_HISTORICAL_RATE, GET_HISTORICAL_BALANCES } from './qu
 import { request } from 'graphql-request'
 import config from '../config'
 import { BalanceHistory, BalanceChanges } from '../interfaces/models'
+import { getCacheReserves } from '../cache/reserve'
 
 
 export const getReserves = async () => {
@@ -21,7 +22,7 @@ export const getHistoricalRate = async (reserve) => {
         }
 
         const result = await request(config.GRAPH_API_URL, GET_HISTORICAL_RATE, variables)
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 50));
 
         const reservesCount = result.reserveParamsHistoryItems.length
         areData = reservesCount > 0
@@ -45,13 +46,18 @@ export const getAccountHistory = async (address: string): Promise<BalanceHistory
         const tokenHistory: BalanceHistory = {
             actualValue: token.value,
             symbol: token.currency.symbol,
+            missingAPY: 0,
+            missingTokens: 0,
             balanceChanges: token.history.map(ele => {
                 return {
                     block: ele.block,
-                    timestamp: Date.parse(ele.timestamp)/1000 as unknown,
+                    timestamp: Date.parse(ele.timestamp) / 1000 as unknown,
                     transferAmount: ele.transferAmount,
                     value: ele.value,
-                    timeIdle: 0
+                    timeIdle: 0,
+                    untilTimestamp: 0,
+                    missingAPY: 0,
+                    missingTokens: 0
                 } as BalanceChanges
             })
         }

@@ -1,9 +1,11 @@
 import { getReserves, getHistoricalRate } from './graphql/queryMethods'
-import { getReserveHistory, saveReserveHistory } from './cache/reserve'
+import { saveCacheReserves, saveReserveHistory } from './cache/reserve'
+import { calculateRates } from './calculations/wallet';
+require('dotenv').config()
 
 async function main() {
-
     const { reserves } = await getReserves()
+    await saveCacheReserves(reserves);
 
     for (const reserve of reserves) {
         console.log(`Getting historic data for reserve ${reserve.symbol}`)
@@ -11,9 +13,11 @@ async function main() {
         await saveReserveHistory(reserve.symbol, reserveHistoy)
     }
 
-    const getFromCache = await getReserveHistory('TUSD')
+    console.log("starting calcs")
 
-    console.log(getFromCache)
+    await calculateRates(process.env.ACCOUNT)
+
+
 }
 
 main()

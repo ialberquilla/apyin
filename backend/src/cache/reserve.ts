@@ -9,3 +9,12 @@ export const getReserveHistory = (symbol) => {
     return data.histoy
 }
 
+export const getCacheReserves = () => {
+    const data = cache.get('reserves')
+    return data.reserves
+}
+
+
+export const saveCacheReserves = (reserves) => {
+    cache.set('reserves', { reserves })
+}

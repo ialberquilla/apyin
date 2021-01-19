@@ -24,13 +24,18 @@ export type Transfers = {
 export type BalanceHistory = {
   actualValue: number
   symbol: string
+  missingAPY: number,
+  missingTokens: number,
   balanceChanges: BalanceChanges[]
 }
 
 export type BalanceChanges = {
   block: number
-  timestamp: string
+  timestamp: number
+  untilTimestamp: number
   transferAmount: number
   value: number
   timeIdle: number
+  missingAPY: number
+  missingTokens: number
 }
