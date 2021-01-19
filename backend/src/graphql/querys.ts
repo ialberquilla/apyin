@@ -32,16 +32,14 @@ query getHistoricalRate ($timestamp: Int!, $reserve: String!){
 
 
 export const GET_HISTORICAL_BALANCES = `
-{
+query getHistoricalBalances ($address: String!){  
   ethereum {
-    address(address: {is: "0xe4509F2ce63DED82e74e9e7E648c1A69e90cD2C4"}) {
+    address(address: {is: $address}) {
       balances {
         value
         currency {
-          address
           name
-          tokenId
-          tokenType
+          symbol
         }
         history {
           block
