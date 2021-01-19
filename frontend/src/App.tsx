@@ -22,7 +22,7 @@ export const App = () => {
       </div>
       <hr/>
       <br/>
-      <Row asset='asset' percentage='%' usd='$' link=''/>
+      <Row asset='asset' percentage='%' usd='$' link='ape'/>
       <hr/>
       <div className='pools__wrapper'>
         <Pools title='Ether' active={active} setActive={setActive}/>
