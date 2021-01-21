@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import { App } from './App'
 import reportWebVitals from './reportWebVitals'
+import { NoMetamask } from './Components/NoMetamask/NoMetamask'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    {window.ethereum ? <App /> : <NoMetamask />}
+    </React.StrictMode>,
   document.getElementById('root')
 )
 

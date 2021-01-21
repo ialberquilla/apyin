@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "csvtojson": "^2.0.10",
+    "ethers": "^5.0.26",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-plotly": "^1.0.0",

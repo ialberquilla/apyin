@@ -13,16 +13,21 @@
   flex-direction: column;
 }
 
-.__top {
+.App__top {
   color: #D83249;
   display: flex;
-  padding: 20px 0;
-  justify-content: space-around;
-  width: 100%;
+  margin: 30px 0 20px 0;
+  justify-content: space-between;
+  width: 980px;
+}
+
+.App__connect-wallet {
+  cursor: pointer;
 }
 
 hr {
   max-height: 1px;
   color: #D83249;
+  border-color: #D83249;
   width: 980px;
 }
