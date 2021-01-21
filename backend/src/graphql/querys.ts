@@ -1,6 +1,6 @@
-export const GET_RESERVES =`
+export const GET_RESERVES = `
 query getReserves {
-  reserves{
+  reserves(where: {symbol_in:["ETH", "USDT"]}){
     id
     symbol
   }
@@ -8,7 +8,7 @@ query getReserves {
 `;
 
 
-export const GET_HISTORICAL_RATE =`
+export const GET_HISTORICAL_RATE = `
 query getHistoricalRate ($timestamp: Int!, $reserve: String!){   
     reserveParamsHistoryItems (
         first:1000, 
@@ -29,3 +29,25 @@ query getHistoricalRate ($timestamp: Int!, $reserve: String!){
     } 
    }
 `;
+
+
+export const GET_HISTORICAL_BALANCES = `
+query getHistoricalBalances ($address: String!){  
+  ethereum {
+    address(address: {is: $address}) {
+      balances {
+        value
+        currency {
+          name
+          symbol
+        }
+        history {
+          block
+          timestamp
+          transferAmount
+          value
+        }
+      }
+    }
+  }
+}`
