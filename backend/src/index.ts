@@ -1,28 +1,22 @@
-import { getReserves, getHistoricalRate } from './graphql/queryMethods'
-import { saveCacheReserves, saveReserveHistory } from './cache/reserve'
-import { calculateRates } from './calculations/wallet';
-require('dotenv').config()
+import express from "express";
+import { initialLoad } from './cache/loadData'
+const app = express();
 
-async function main() {
-    const { reserves } = await getReserves()
-    await saveCacheReserves(reserves);
+import initRoutes from "./routes";
 
-    for (const reserve of reserves) {
-        console.log(`Getting historic data for reserve ${reserve.symbol}`)
-        const reserveHistoy = await getHistoricalRate(reserve.id);
-        await saveReserveHistory(reserve.symbol, reserveHistoy)
-    }
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
-    console.log("starting calcs")
-
-    await calculateRates(process.env.ACCOUNT)
+initRoutes(app);
+app.use(express.urlencoded({ extended: true }));
 
 
-}
-
-main()
-    .then(() => process.exit(0))
-    .catch(error => {
-        console.error(error);
-        process.exit(1);
-    });
+const port = 8080;
+app.listen(port, async() => {
+    await initialLoad()
+    console.log(`Running at localhost:${port}`);
+});

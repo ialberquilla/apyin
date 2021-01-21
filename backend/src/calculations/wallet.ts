@@ -15,24 +15,24 @@ export const calculateRates = async (wallet: string) => {
 
     for (const token of withIdle) {
         let ratesOfBalances = []
-        for (const balanceChange of token.balanceChanges) {
-            const timeFramesRate = await getRatesForTimeFrame(token.symbol, balanceChange)
-            console.log(timeFramesRate)
-            if(timeFramesRate.length > 0){
-                const timeFramesRateAndTime = await setTimeInRate(timeFramesRate)
-                const totalRate = calculateTotalRate(timeFramesRateAndTime, balanceChange.value)
-                ratesOfBalances.push(totalRate)
-            }
+        const timeFramesRate = await getRatesForTimeFrame(token.symbol, token.balanceChanges)
+
+        for (const balanceChange of timeFramesRate) {
+
+                if (timeFramesRate.length > 0) {
+                    const timeFramesRateAndTime = await setTimeInRate(balanceChange)
+                    console.log(timeFramesRateAndTime)
+                    const totalRate = calculateTotalRate(timeFramesRateAndTime, balanceChange.value)
+                    ratesOfBalances.push(totalRate)
+                }
         }
+
         const tokenMissingData = {
             token: token.symbol,
             ratesOfBalances
         }
-        tokensMissingData.push(tokenMissingData)
+        tokensMissingData.push(tokenMissingData) 
     }
 
-    tokensMissingData.forEach(ele => {
-        console.log(ele.token)
-        console.log(ele.ratesOfBalances)
-    })
+    return tokensMissingData
 }

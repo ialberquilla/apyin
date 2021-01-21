@@ -1,6 +1,6 @@
 export const GET_RESERVES = `
 query getReserves {
-  reserves(where: {symbol_in:["ETH", "USDT"]}){
+  reserves{
     id
     symbol
   }
