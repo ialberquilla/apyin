@@ -8,6 +8,7 @@ export const App = () => {
   const [active, setActive] = useState('')
   const [loader, setLoader] = useState(true)
   const [account, setAccount] = useState<string | undefined>()
+  const [balances, setBalances] = useState<undefined|any[]>()
   window.ethereum.on('accountsChanged', (accounts: any) => {
     accounts.length === 0 && setAccount(undefined)
   })
@@ -15,8 +16,25 @@ export const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setAccount(window.ethereum.selectedAddress)
-      setLoader(false)
-    }, 1000)
+      fetch(`http://localhost:8080/idle/${window.ethereum.selectedAddress}`)
+        .then(res => res.json())
+        .then(balances => {
+          return balances.map((balance: any) => {
+            let notUndefinedMissingRates = 0
+            return {
+            asset: balance.token,
+            percentage: balance.ratesOfBalances.reduce((acc: number, curr: any) => {
+              curr.missingRate !== 0 && notUndefinedMissingRates++
+              return curr.missingRate !== 0 ? curr.missingRate + acc : acc
+            }, 0) / notUndefinedMissingRates,
+            usd: balance.ratesOfBalances.reduce((acc: number, curr: any) => curr.tokenMissing ? curr.tokenMissing + acc : acc, 0)
+          }})
+        })
+        .then(balances => {
+          setLoader(false)
+          setBalances(balances)
+        })
+    }, 1000);
   }, [])
 
   const ethEnabled = useCallback(async () => {
@@ -46,9 +64,8 @@ export const App = () => {
       <Row asset='asset' percentage='%' usd='$' link='ape'/>
       <hr/>
       <div className='pools__wrapper'>
-        <Pools title='Ether' active={active} setActive={setActive}/>
-        <hr/>
-        <Pools title='Dai' active={active} setActive={setActive}/>
+        {balances?.map((balance: any) => <><Pools balance={balance} active={active} setActive={setActive}/>
+        <hr/></>)}
       </div>
     </div>
   )
