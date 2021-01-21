@@ -38,4 +38,11 @@ export type BalanceChanges = {
   timeIdle: number
   missingAPY: number
   missingTokens: number
+  rateChanges: RateChanges[]
+}
+
+export type RateChanges = {
+  liquidityRate: number,
+  timestamp: number
+  untilTimestamp?: number
 }

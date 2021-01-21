@@ -25,6 +25,7 @@ const calculateIdleTimeForToken = (token: BalanceHistory): BalanceHistory => {
                 Math.round(Date.now() / 1000) - balanceChange.timestamp,
             missingAPY: balanceChange.missingAPY,
             missingTokens: balanceChange.missingTokens,
+            rateChanges: []
         } as BalanceChanges
     })
 
