@@ -3,18 +3,12 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import { App } from './App'
 import reportWebVitals from './reportWebVitals'
-
-import Web3Provider, { Connectors } from 'web3-react'
-const { InjectedConnector } = Connectors
-
-const connectors = { MetaMask: new InjectedConnector({supportedNetworks: [1, 3, 4, 5, 42]}) }
+import { NoMetamask } from './Components/NoMetamask/NoMetamask'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Web3Provider connectors={connectors}>
-      <App />
-    </Web3Provider>
-  </React.StrictMode>,
+    {window.ethereum ? <App /> : <NoMetamask />}
+    </React.StrictMode>,
   document.getElementById('root')
 )
 

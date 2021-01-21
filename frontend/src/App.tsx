@@ -1,23 +1,44 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Pools } from './Components/Pools/Pools'
 import { Row } from './Components/Row/Row'
+import { Loader } from './Components/Loader/Loader'
 import './App.css'
-import { useWeb3Context } from 'web3-react'
 
 export const App = () => {
-  const context = useWeb3Context()
   const [active, setActive] = useState('')
-  console.log(context.account)
+  const [loader, setLoader] = useState(true)
+  const [account, setAccount] = useState()
+  window.ethereum.on('accountsChanged', (accounts: any) => {
+    accounts.length === 0 && setAccount(undefined)
+  })
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAccount(window.ethereum.selectedAddress)
+      setLoader(false)
+    }, 1000)
+  }, [])
+
+  const ethEnabled = useCallback(async () => {
+    if (account) return
+    setLoader(true)
+    await window.ethereum.send('eth_requestAccounts')
+    setTimeout(() => {
+      setAccount(window.ethereum.selectedAddress)
+      setLoader(false)
+    }, 1000)
+  }, [account])
 
   return (
-    <div className='App'>
+    <div className='App' style={{opacity: loader ? .3 : 1, transition: 'opacity 100ms ease-in-out'}}>
+      {loader && <Loader/>}
       <div className='App__top'>
         <span>APYin</span>
         <div
-          onClick={() => context.setFirstValidConnector(['MetaMask'])}
+          onClick={() => ethEnabled()}
           className='App__connect-wallet'
         >
-          Connect Wallet
+          {account || 'Connect Wallet'}
         </div>
       </div>
       <hr/>
