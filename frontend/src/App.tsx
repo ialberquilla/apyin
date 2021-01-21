@@ -7,7 +7,7 @@ import './App.css'
 export const App = () => {
   const [active, setActive] = useState('')
   const [loader, setLoader] = useState(true)
-  const [account, setAccount] = useState()
+  const [account, setAccount] = useState<string | undefined>()
   window.ethereum.on('accountsChanged', (accounts: any) => {
     accounts.length === 0 && setAccount(undefined)
   })
@@ -38,7 +38,7 @@ export const App = () => {
           onClick={() => ethEnabled()}
           className='App__connect-wallet'
         >
-          {account || 'Connect Wallet'}
+          {account ? `${account.slice(0, 5)}..${account.slice(-4)}` : 'Connect Wallet'}
         </div>
       </div>
       <hr/>
