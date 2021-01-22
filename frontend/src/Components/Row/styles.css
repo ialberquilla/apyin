@@ -13,3 +13,11 @@
 .row__link {
     cursor: pointer;
 }
+
+.row__link.label {
+    cursor: default;
+}
+
+div {
+    cursor: default;
+}

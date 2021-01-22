@@ -21,7 +21,7 @@ export function Row ({ asset, link, percentage, usd }: RowInput) {
         <div className='row__usd'>
           {usd}
         </div>
-        <div className='row__link'>
+        <div className={`${asset === 'asset' ? 'row__link label' : 'row__link'}`}>
           {link}
         </div>
       </div>
