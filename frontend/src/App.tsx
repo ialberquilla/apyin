@@ -25,7 +25,7 @@ export const App = () => {
             percentage: balance.ratesOfBalances.reduce((acc: number, curr: any) => {
               curr.missingRate !== 0 && nonZeroMissingRates++
               return curr.missingRate !== 0 ? curr.missingRate + acc : acc
-            }, 0) / nonZeroMissingRates * 100,
+            }, 0) / (nonZeroMissingRates || 1) * 100,
             usd: balance.ratesOfBalances.reduce((acc: number, curr: any) => {
               return curr.tokensMissing ? curr.tokensMissing + acc : acc
             }, 0)
