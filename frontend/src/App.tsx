@@ -13,27 +13,39 @@ export const App = () => {
     accounts.length === 0 && setAccount(undefined)
   })
 
+  function fetchData() {
+    setLoader(true)
+    fetch(`http://159.89.3.75:8080/idle/${window.ethereum.selectedAddress}`)
+      .then(res => res.json())
+      .then(balances => {
+        return balances.map((balance: any) => {
+          let nonZeroMissingRates = 0
+          return {
+            asset: balance.token,
+            percentage: balance.ratesOfBalances.reduce((acc: number, curr: any) => {
+              curr.missingRate !== 0 && nonZeroMissingRates++
+              return curr.missingRate !== 0 ? curr.missingRate + acc : acc
+            }, 0) / nonZeroMissingRates * 100,
+            usd: balance.ratesOfBalances.reduce((acc: number, curr: any) => {
+              return curr.tokensMissing ? curr.tokensMissing + acc : acc
+            }, 0)
+          }
+        })
+      })
+      .then(balances => {
+        setBalances(balances)
+        setLoader(false)
+      })
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setAccount(window.ethereum.selectedAddress)
-      fetch(`http://localhost:8080/idle/${window.ethereum.selectedAddress}`)
-        .then(res => res.json())
-        .then(balances => {
-          return balances.map((balance: any) => {
-            let notUndefinedMissingRates = 0
-            return {
-            asset: balance.token,
-            percentage: balance.ratesOfBalances.reduce((acc: number, curr: any) => {
-              curr.missingRate !== 0 && notUndefinedMissingRates++
-              return curr.missingRate !== 0 ? curr.missingRate + acc : acc
-            }, 0) / notUndefinedMissingRates,
-            usd: balance.ratesOfBalances.reduce((acc: number, curr: any) => curr.tokenMissing ? curr.tokenMissing + acc : acc, 0)
-          }})
-        })
-        .then(balances => {
-          setLoader(false)
-          setBalances(balances)
-        })
+      setLoader(true)
+      fetchData()
+      console.log(window.ethereum.selectedAddress)
+      if (!window.ethereum.selectedAddress) setLoader(false)
+
     }, 1000);
   }, [])
 
@@ -44,6 +56,7 @@ export const App = () => {
     setTimeout(() => {
       setAccount(window.ethereum.selectedAddress)
       setLoader(false)
+      fetchData()
     }, 1000)
   }, [account])
 
