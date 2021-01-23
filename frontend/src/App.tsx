@@ -4,13 +4,24 @@ import { Row } from './Components/Row/Row'
 import { Loader } from './Components/Loader/Loader'
 import './App.css'
 
+let lastMove = 0
+
 export const App = () => {
   const [active, setActive] = useState('')
   const [loader, setLoader] = useState(true)
   const [account, setAccount] = useState<string | undefined>()
   const [balances, setBalances] = useState<undefined|any[]>()
+
   window.ethereum.on('accountsChanged', (accounts: any) => {
-    accounts.length === 0 && setAccount(undefined)
+    if (Date.now() - lastMove > 1000) {
+      lastMove = Date.now()
+      if (accounts.length === 0) {
+        setAccount(undefined)
+      } else {
+        fetchData()
+        setAccount(window.ethereum.selectedAddress)
+      }
+    }
   })
 
   function fetchData() {
@@ -26,9 +37,7 @@ export const App = () => {
               curr.missingRate !== 0 && nonZeroMissingRates++
               return curr.missingRate !== 0 ? curr.missingRate + acc : acc
             }, 0) / (nonZeroMissingRates || 1) * 100,
-            usd: balance.ratesOfBalances.reduce((acc: number, curr: any) => {
-              return curr.tokensMissing ? curr.tokensMissing + acc : acc
-            }, 0)
+            usd: balance.ratesOfBalances.reduce((acc: number, curr: any) => curr.tokensMissing ? curr.tokensMissing + acc : acc, 0)
           }
         })
       })
@@ -47,7 +56,7 @@ export const App = () => {
       if (!window.ethereum.selectedAddress) setLoader(false)
 
     }, 1000);
-  }, [])
+  }, [account])
 
   const ethEnabled = useCallback(async () => {
     if (account) return
@@ -77,8 +86,8 @@ export const App = () => {
       <Row asset='asset' percentage='%' usd='$' link='ape'/>
       <hr/>
       <div className='pools__wrapper'>
-        {balances?.map((balance: any) => <><Pools balance={balance} active={active} setActive={setActive}/>
-        <hr/></>)}
+        {balances?.map((balance: any) => <div key={balance.asset}><Pools balance={balance} active={active} setActive={setActive}/>
+        <hr/></div>)}
       </div>
     </div>
   )
