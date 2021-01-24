@@ -1,4 +1,5 @@
 import React from 'react'
+import Logo from '../../assets/Logo.svg'
 import './styles.css'
 
 type HeaderProps = {
@@ -8,7 +9,10 @@ type HeaderProps = {
 export function Header({ ethEnabled, account }: HeaderProps) {
   return <div className='header__wrapper'>
     <div className='header__content'>
-      <span>APYin</span>
+      <div className='header__logo'>
+        <img alt='Ape Logo' src={Logo} />
+        <span>APYin</span>
+      </div>
       <span className='header__white'>Aave Historical Returns on Holdings Calculator</span>
       <div
         onClick={() => ethEnabled()}
