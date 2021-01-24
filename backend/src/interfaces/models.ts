@@ -24,6 +24,7 @@ export type Transfers = {
 export type BalanceHistory = {
   actualValue: number
   symbol: string
+  address: string
   missingAPY: number,
   missingTokens: number,
   balanceChanges: BalanceChanges[]

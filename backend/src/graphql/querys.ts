@@ -40,6 +40,7 @@ query getHistoricalBalances ($address: String!){
         currency {
           name
           symbol
+          address
         }
         history {
           block
@@ -50,4 +51,13 @@ query getHistoricalBalances ($address: String!){
       }
     }
   }
+}`
+
+
+export const GET_ATOKENS = `
+query getAtokens {
+  atokens{
+    id
+    underlyingAssetAddress
+    }
 }`
