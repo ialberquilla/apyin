@@ -1,0 +1,13 @@
+.tab-picker__tab {
+    cursor: pointer;
+    height: 74px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #D83249;
+    border-right: none;
+    justify-content: center;
+}
+
+.tab-picker__tab.active {
+    background: #111112;
+}

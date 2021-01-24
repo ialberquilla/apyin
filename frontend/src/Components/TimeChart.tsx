@@ -44,6 +44,13 @@ export const TimeChart = () => {
       t: 40,
       b: 40
     },
+    showlegend: true,
+    legend: {
+      x: .7,
+      xanchor: 'right',
+      y: 1,
+      orientation: 'h'
+    },
     xaxis: {
       autorange: true,
       color: '#D83249',
@@ -60,8 +67,6 @@ export const TimeChart = () => {
       range: [86.8700008333, 138.870004167],
       type: 'linear'
     },
-    width: 500,
-    height: 300,
     plot_bgcolor:"#111112",
     paper_bgcolor:"#111112"
   };

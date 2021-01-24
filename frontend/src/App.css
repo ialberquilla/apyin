@@ -12,9 +12,3 @@
   align-items: center;
   flex-direction: column;
 }
-
-hr {
-  color: #D83249;
-  border-color: #D83249;
-  width: 980px;
-}
