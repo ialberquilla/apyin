@@ -1,0 +1,24 @@
+.label__wrapper {
+    cursor: default;
+    background: #801518;
+    border: 1px solid #D83249;
+}
+
+.label__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr 1fr;
+    min-height: 48px;
+    align-content: center;
+    width: 100%;
+}
+
+.label__content {
+    min-height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div {
+    cursor: default;
+}

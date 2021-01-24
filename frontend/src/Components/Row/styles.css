@@ -1,24 +1,87 @@
-.row__grid {
+.row__outer-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr 1fr;
-    min-height: 48px;
-    align-content: center;
+    grid-template-columns: 5.5fr 1fr;
+    width: 100%;
 }
 
-.row__wrapper {
+.row__internal {
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: #130545;
+    border: 1px solid #D83249;
+    transition: all 600ms ease-in-out;
 }
 
-.row__link {
+.row__internal.active {
+    background: #250989;
+}
+
+.row__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr;
+    min-height: 48px;
+    align-content: center;
+    width: 100%;
+}
+
+.row__assets {
+    min-height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row__percentage {
+    min-height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row__usd {
+    min-height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row__expand-shrink {
+    min-height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row__link-wrapper {
+    min-height: 48px;
+    background-color: #111112;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
 }
 
-.row__label-wrapper {
-    cursor: default;
+.row__link {
     background: #801518;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    width: 60%;
+    border-radius: 4px;
     border: 1px solid #D83249;
+    cursor: pointer;
 }
+
+a {
+    color:#FFFFFF;
+    text-decoration: none;
+}
+a:visited {color:#FFFFFF;}
+a:hover {color:#FFFFFF;}
+a:active {color:#FFFFFF;}
 
 div {
     cursor: default;

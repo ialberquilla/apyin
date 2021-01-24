@@ -1,6 +1,5 @@
 .pools__container {
     width: 100%;
-    max-width: 980px;
     position: relative;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -12,13 +11,8 @@
 }
 
 .pools__heading .pools__container {
-    background: #250989;
-    padding: 14px 0;
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-.pools__heading {
     justify-content: center;
 }
 
@@ -57,8 +51,6 @@
 
 .pools__croxx {
     cursor: pointer;
-    position: absolute;
-    right: 20px;
     transition: all 600ms ease-in-out;
 }
 
