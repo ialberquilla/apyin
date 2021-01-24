@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27018:27017
+    restart: on-failure
