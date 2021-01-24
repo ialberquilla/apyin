@@ -23,4 +23,4 @@ const aaveHistorySchema = new mongoose.Schema(
 
 aaveHistorySchema.index({ timestamp: 1, symbol: 1 })
 
-export const AaveHistory = mongoose.model('AaveHistory', aaveHistorySchema)
+export const AaveHistory = mongoose.model<any>('AaveHistory', aaveHistorySchema)
