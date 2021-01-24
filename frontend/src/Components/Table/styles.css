@@ -5,4 +5,10 @@
 
 .table__content {
     padding: 40px;
+    height: 90vh;
+}
+
+.table__scrollable {
+    overflow-Y: scroll;
+    height: 80vh;
 }

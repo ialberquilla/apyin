@@ -5,10 +5,6 @@
     grid-template-columns: 1.5fr 3fr 1fr;
 }
 
-.pools__container span {
-    font-size: 100px;
-}
-
 .pools__heading .pools__container {
     display: flex;
     align-items: center;
@@ -35,12 +31,12 @@
     opacity: 1;
 }
 
-.pools__croxx {
+.row__croxx {
     cursor: pointer;
     transition: all 600ms ease-in-out;
 }
 
-.pools__croxx.X {
+.row__croxx.X {
     transform: rotate(-45deg);
 }
 
@@ -51,8 +47,15 @@
 
 .info-space {
     display: flex;
-    align-items: center;
     justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    align-content: center;
+}
+
+.info-space__clickable {
+    color: #D83249;
+    cursor: pointer;
 }
 
 #first {

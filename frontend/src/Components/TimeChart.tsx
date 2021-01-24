@@ -42,7 +42,8 @@ export const TimeChart = () => {
     margin: {
       l: 40,
       t: 40,
-      b: 40
+      b: 40,
+      r: 40
     },
     showlegend: true,
     legend: {
@@ -74,6 +75,7 @@ export const TimeChart = () => {
     data={data}
   // @ts-ignore
   layout={layout}
+    style={{ width: '100%' }}
   config={{displayModeBar: false}}
   />
 }
