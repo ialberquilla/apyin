@@ -1,0 +1,8 @@
+.table__wrapper {
+    min-height: 48px;
+    width: 100%;
+}
+
+.table__content {
+    padding: 40px;
+}

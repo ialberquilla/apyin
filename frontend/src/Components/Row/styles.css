@@ -1,8 +1,8 @@
 .row__grid {
     display: grid;
-    width: 980px;
-    grid-template-columns: 1fr 1fr 1fr 1fr .4fr;
-    margin: 20px 0;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr 1fr;
+    min-height: 48px;
+    align-content: center;
 }
 
 .row__wrapper {
@@ -14,8 +14,10 @@
     cursor: pointer;
 }
 
-.row__link.label {
+.row__label-wrapper {
     cursor: default;
+    background: #801518;
+    border: 1px solid #D83249;
 }
 
 div {

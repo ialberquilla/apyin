@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Pools } from './Components/Pools/Pools'
-import { Row } from './Components/Row/Row'
+import { Table } from './Components/Table/Table'
 import { Loader } from './Components/Loader/Loader'
 import { Header } from './Components/Header/Header'
 import './App.css'
@@ -74,14 +73,7 @@ export const App = () => {
     <div className='App' style={{opacity: loader ? .3 : 1, transition: 'opacity 100ms ease-in-out'}}>
       {loader && <Loader/>}
       <Header ethEnabled={ethEnabled} account={account}/>
-      <hr/>
-      <br/>
-      <Row asset='asset' percentage='%' usd='$' link='ape'/>
-      <hr/>
-      <div className='pools__wrapper'>
-        {balances?.map((balance: any) => <div key={balance.asset}><Pools balance={balance} active={active} setActive={setActive}/>
-        <hr/></div>)}
-      </div>
+      <Table balances={balances} active={active} setActive={setActive} />
     </div>
   )
 }

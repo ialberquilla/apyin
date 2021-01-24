@@ -6,11 +6,12 @@ export type RowInput = {
   link: any
   percentage: any
   usd: any
+  expandShrink?: any
 }
 
-export function Row ({ asset, link, percentage, usd }: RowInput) {
+export function Row ({ asset, link, percentage, usd, expandShrink }: RowInput) {
   return (
-    <div className='row__wrapper'>
+    <div className={`${asset === 'Asset' ? 'row__label-wrapper' : 'row__wrapper'}`}>
       <div className='row__grid'>
         <div className='row__assets'>
           {asset}
@@ -20,6 +21,9 @@ export function Row ({ asset, link, percentage, usd }: RowInput) {
         </div>
         <div className='row__usd'>
           {usd}
+        </div>
+        <div className='row__expand-shrink'>
+          {expandShrink}
         </div>
         <div className={`${asset === 'asset' ? 'row__link label' : 'row__link'}`}>
           {link}
