@@ -1,0 +1,22 @@
+.header__wrapper {
+  background: #414142;
+  width: 100%;
+}
+
+.header__content {
+  background: #414142;
+  color: #D83249;
+  min-height: 48px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__white {
+  color: #FFFFFF;
+}
+
+.header__wallet {
+  cursor: pointer;
+}

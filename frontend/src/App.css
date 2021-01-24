@@ -1,7 +1,7 @@
 .App {
   background-color: #111112;
   color: #FFF;
-  font-family: 'Overpass Mono', sans-serif;
+  font-family: 'Overpass Mono', monospace;
   font-size: 18px;
   font-weight: 300;
   width: 100%;
@@ -13,20 +13,7 @@
   flex-direction: column;
 }
 
-.App__top {
-  color: #D83249;
-  display: flex;
-  margin: 30px 0 20px 0;
-  justify-content: space-between;
-  width: 980px;
-}
-
-.App__connect-wallet {
-  cursor: pointer;
-}
-
 hr {
-  max-height: 1px;
   color: #D83249;
   border-color: #D83249;
   width: 980px;

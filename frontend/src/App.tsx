@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Pools } from './Components/Pools/Pools'
 import { Row } from './Components/Row/Row'
 import { Loader } from './Components/Loader/Loader'
+import { Header } from './Components/Header/Header'
 import './App.css'
 
 let lastMove = 0
@@ -72,15 +73,7 @@ export const App = () => {
   return (
     <div className='App' style={{opacity: loader ? .3 : 1, transition: 'opacity 100ms ease-in-out'}}>
       {loader && <Loader/>}
-      <div className='App__top'>
-        <span>APYin</span>
-        <div
-          onClick={() => ethEnabled()}
-          className='App__connect-wallet'
-        >
-          {account ? `${account.slice(0, 5)}..${account.slice(-4)}` : 'Connect Wallet'}
-        </div>
-      </div>
+      <Header ethEnabled={ethEnabled} account={account}/>
       <hr/>
       <br/>
       <Row asset='asset' percentage='%' usd='$' link='ape'/>
