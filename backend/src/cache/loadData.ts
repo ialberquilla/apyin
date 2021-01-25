@@ -1,10 +1,8 @@
 import { getReserves, getHistoricalRate } from '../graphql/queryMethods'
-import { saveCacheReserves, saveReserveHistory } from '../cache/reserve'
 import { AaveHistory } from '../schemata/reserveHistory'
 
 export const initialLoad = async () => {
     const { reserves } = await getReserves()
-    await saveCacheReserves(reserves);
 
     for (const reserve of reserves) {
         console.log(`Getting historic data for reserve ${reserve.symbol}`)
@@ -16,6 +14,5 @@ export const initialLoad = async () => {
             timestamp: point.timestamp
         }))
         await AaveHistory.insertMany(aaveHistory)
-        await saveReserveHistory(reserve.symbol, reserveHistory)
     }
 }

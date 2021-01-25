@@ -2,7 +2,6 @@ import { GET_RESERVES, GET_HISTORICAL_RATE, GET_HISTORICAL_BALANCES } from './qu
 import { request } from 'graphql-request'
 import config from '../config'
 import { BalanceHistory, BalanceChanges } from '../interfaces/models'
-import { getCacheReserves } from '../cache/reserve'
 
 
 export const getReserves = async () => {
