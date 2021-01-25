@@ -2,9 +2,19 @@ import { getReserveHistory } from "../cache/reserve";
 import { BalanceChanges, RateChanges } from "../interfaces/models";
 import config from '../config'
 
+type BucketChangesRate = {
+    apyBucket: number,
+    startDate: number,
+    endDate?: number
+}
+
 export const getRatesForTimeFrame = async (symbol: string, balanceChanges: BalanceChanges[]) => {
     const rateshistory = await getReserveHistory(symbol)
     let balancesChangesRates = [...balanceChanges];
+    let bucketChangesRates: BucketChangesRate[] = [{
+        startDate: rateshistory[0].timestamp,
+        apyBucket: getApyBucket(rateshistory[0].liquidityRate)
+    }]
 
     const ratesLength = rateshistory.length
 
@@ -23,10 +33,15 @@ export const getRatesForTimeFrame = async (symbol: string, balanceChanges: Balan
                 balancesChangesRates[frameindex].rateChanges.push(rateApplied)
             }
         }
+        let lastBucketChangesRate = bucketChangesRates[bucketChangesRates.length - 1]
+        if (getApyBucket(rateshistory[index].liquidityRate) !== lastBucketChangesRate.apyBucket && index !== 0) {
+            bucketChangesRates[bucketChangesRates.length - 1] = { ...lastBucketChangesRate, endDate: rateshistory[index - 1].timestamp }
+            bucketChangesRates.push({ apyBucket: getApyBucket(rateshistory[index].liquidityRate), startDate: rateshistory[index].timestamp })
+        }
     }
+    bucketChangesRates[bucketChangesRates.length - 1] = { ...bucketChangesRates[bucketChangesRates.length - 1], endDate: rateshistory[rateshistory.length - 1].timestamp }
 
-    return balancesChangesRates
-
+    return { balancesChangesRates, bucketChangesRates }
 }
 
 
@@ -81,4 +96,13 @@ export const calculateTotalRate = (arrayRates, amount) => {
     }
 
     return { missingRate: totalRate, tokensMissing: increment - amount, timeIdle }
+}
+
+
+function getApyPercentage (liquidityRate) {
+    return Number(liquidityRate) / config.DECIMALS * 100
+}
+
+function getApyBucket (liquidityRate) {
+    return Math.round(getApyPercentage(liquidityRate) / 20) * 20
 }
