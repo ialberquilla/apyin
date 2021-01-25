@@ -58,6 +58,19 @@
     cursor: pointer;
 }
 
-#first {
-    background-color: #111112;
+.pools__content-wrapper {
+    display: grid;
+    grid-template-columns: 5.5fr 1fr;
+}
+
+.periods__wrapper {
+    border-bottom: #D83249 solid 1px;
+    border-left: #D83249 solid 1px;
+}
+
+.periods__bar {
+    width: 100%;
+    display: flex;
+    height: 30px;
+    background: #250989;
 }
