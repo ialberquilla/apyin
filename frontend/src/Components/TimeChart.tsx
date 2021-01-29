@@ -18,14 +18,14 @@ export const TimeChart = () => {
         return setData([{
           type: "scatter",
           mode: "lines",
-          name: 'AAPL High',
+          name: 'USD with aave',
           x: data.map((datum: any) => datum.Date),
           y: data.map((datum: any) => datum.AAPL.High),
           line: {color: '#9284c4'}
         }, {
           type: "scatter",
           mode: "lines",
-          name: 'AAPL Low',
+          name: 'USD without aave',
           x: data.map((datum: any) => datum.Date),
           y: data.map((datum: any) => datum.AAPL.Low),
           line: {color: '#D83249'}
