@@ -1,10 +1,14 @@
-import { GET_RESERVES, GET_HISTORICAL_RATE, GET_HISTORICAL_BALANCES } from './querys'
+import {
+    GET_RESERVES,
+    GET_HISTORICAL_RATE,
+    GET_HISTORICAL_BALANCES, GET_HISTORICAL_ETH_PRICE
+} from './querys'
 import { request } from 'graphql-request'
 import config from '../config'
-import { BalanceHistory, BalanceChanges } from '../interfaces/models'
+import { BalanceHistory, BalanceChanges, AaveReserves } from '../interfaces/models'
 
 
-export const getReserves = async () => {
+export const getReserves = async (): Promise<AaveReserves> => {
     return request(config.GRAPH_API_URL, GET_RESERVES)
 }
 
@@ -28,6 +32,29 @@ export const getHistoricalRate = async (reserve) => {
         if (areData) timestamp = result.reserveParamsHistoryItems[reservesCount - 1].timestamp
 
         total = [...total, ...result.reserveParamsHistoryItems]
+    }
+
+    return total
+}
+
+export const getHistoricalEthPrice = async () => {
+    let areData = true
+    let timestamp = 0
+    let total = []
+
+    while (areData) {
+        const variables = {
+            timestamp
+        }
+
+        const result = await request(config.GRAPH_API_URL, GET_HISTORICAL_ETH_PRICE, variables)
+        await new Promise(resolve => setTimeout(resolve, 50));
+
+        const ethHistoryCount = result.usdEthPriceHistoryItems.length
+        areData = ethHistoryCount > 0
+        if (areData) timestamp = result.usdEthPriceHistoryItems[ethHistoryCount - 1].timestamp
+
+        total = [...total, ...result.usdEthPriceHistoryItems]
     }
 
     return total

@@ -40,6 +40,14 @@ export type BalanceChanges = {
   missingTokens: number
   rateChanges: RateChanges[]
 }
+export type AaveReserve = {
+  id: string
+  symbol: string
+}
+
+export type AaveReserves = {
+  reserves: AaveReserve[]
+}
 
 export type RateChanges = {
   liquidityRate: number,

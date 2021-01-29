@@ -1,5 +1,6 @@
-import { getReserves, getHistoricalRate } from '../graphql/queryMethods'
+import { getReserves, getHistoricalRate, getHistoricalEthPrice } from '../graphql/queryMethods'
 import { AaveHistory } from '../schemata/reserveHistory'
+import { EthPrice } from '../schemata/ethPrice'
 
 export const initialLoad = async () => {
     const { reserves } = await getReserves()
@@ -15,4 +16,14 @@ export const initialLoad = async () => {
         }))
         await AaveHistory.insertMany(aaveHistory)
     }
+}
+
+export const initialEthPriceLoad = async () => {
+    console.log(`Getting historic data for Eth price`)
+    const ethPriceHistoryData = await getHistoricalEthPrice();
+    const ethPriceHistory = ethPriceHistoryData.map(point => ({
+        timestamp: point.timestamp,
+        usdPrice: point.price
+    }))
+    await Promise.all(ethPriceHistory.map(point => EthPrice.findOneAndUpdate({timestamp: point.timestamp}, point, {upsert: true})))
 }
