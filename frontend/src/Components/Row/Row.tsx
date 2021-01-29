@@ -10,10 +10,9 @@ export type RowInput = {
   balance?: any
   active?: any
   setActive?: any
-  setPeriodActive: any
 }
 
-export function Row({ asset, link, percentage, usd, balance, active, setActive, setPeriodActive }: RowInput) {
+export function Row({ asset, link, percentage, usd, balance, active, setActive }: RowInput) {
   return (
     <div className='row__outer-grid'>
       <div className={`row__internal ${active === balance.asset ? 'active' : ''}`}>
@@ -36,7 +35,6 @@ export function Row({ asset, link, percentage, usd, balance, active, setActive, 
                 height='30px'
                 onClick={() => {
                   setActive(active === balance.asset ? '' : balance.asset)
-                  setPeriodActive('')
                 }}
                 src={Croxx}
               />

@@ -7,11 +7,9 @@ type TableProps = {
   balances: any
   active: any
   setActive: any
-  periodActive: any
-  setPeriodActive: any
 }
 
-export function Table({ balances, active, setActive, periodActive, setPeriodActive }: TableProps) {
+export function Table({ balances, active, setActive }: TableProps) {
   return <div className='table__wrapper'>
     <div className='table__content'>
       <Label
@@ -25,8 +23,6 @@ export function Table({ balances, active, setActive, periodActive, setPeriodActi
         {balances?.map((balance: any) => <div key={balance.asset}><PoolsWithTabsAndText balance={balance}
                                                                                         active={active}
                                                                                         setActive={setActive}
-                                                                                        periodActive={periodActive}
-                                                                                        setPeriodActive={setPeriodActive}
         />
         </div>)}
       </div>
