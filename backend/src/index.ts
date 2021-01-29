@@ -21,5 +21,6 @@ const port = 8080;
 mongoose.set('useCreateIndex', true)
 mongoose.connect('mongodb://159.89.3.75:27018/apyin', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(port, async () => {
-    console.log(`Running at localhost:${port}`);
+    await initialLoad()
+      console.log(`Running at localhost:${port}`);
 })).catch(e => console.log(e));
