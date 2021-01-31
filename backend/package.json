@@ -29,7 +29,6 @@
     "graphql": "^15.4.0",
     "graphql-request": "^3.4.0",
     "mongoose": "^5.11.13",
-    "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1"
   }
 }

@@ -1,5 +1,5 @@
-import { calculateIdleTime } from '../calculations/time'
-import { getRatesForTimeFrame, setTimeInRate, calculateTotalRate } from '../calculations/apy'
+import { calculateIdleTime } from './time'
+import { getRatesForTimeFrame, setTimeInRate, calculateTotalRate } from './apy'
 import { getAccountHistory, getReserves } from '../graphql/queryMethods'
 
 export const calculateRates = async (wallet: string) => {

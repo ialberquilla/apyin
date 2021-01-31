@@ -43,10 +43,17 @@ export type BalanceChanges = {
 export type AaveReserve = {
   id: string
   symbol: string
+  decimals: number
+  underlyingAsset: string
 }
 
 export type AaveReserves = {
   reserves: AaveReserve[]
+}
+
+export type PriceHistoryItem = {
+  price: number,
+  timestamp: number
 }
 
 export type RateChanges = {

@@ -1,6 +1,6 @@
-import { getReserveHistory } from "../cache/reserve";
 import { BalanceChanges, RateChanges } from "../interfaces/models";
 import config from '../config'
+import { HistoricalLiquidityRate } from '../schemata/reserveHistory'
 
 type BucketChangesRate = {
     apyBucket: number,
@@ -9,7 +9,7 @@ type BucketChangesRate = {
 }
 
 export const getRatesForTimeFrame = async (symbol: string, balanceChanges: BalanceChanges[]) => {
-    const rateshistory = await getReserveHistory(symbol)
+    const rateshistory = await HistoricalLiquidityRate.find({ symbol }).sort({ timestamp: 1 })
     let balancesChangesRates = [...balanceChanges];
     let bucketChangesRates: BucketChangesRate[] = [{
         startDate: rateshistory[0].timestamp,

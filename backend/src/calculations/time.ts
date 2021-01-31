@@ -8,8 +8,8 @@ export const calculateIdleTime = (wallet: BalanceHistory[]) => {
 
 
 const calculateIdleTimeForToken = (token: BalanceHistory): BalanceHistory => {
-    const resutToken: BalanceHistory = Object.assign({}, token);
-    resutToken.balanceChanges = token.balanceChanges.map((balanceChange, index) => {
+    const resultToken: BalanceHistory = Object.assign({}, token);
+    resultToken.balanceChanges = token.balanceChanges.map((balanceChange, index) => {
         return {
             block: balanceChange.block,
             timestamp: balanceChange.timestamp,
@@ -29,5 +29,5 @@ const calculateIdleTimeForToken = (token: BalanceHistory): BalanceHistory => {
         } as BalanceChanges
     })
 
-    return resutToken
+    return resultToken
 }

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const aaveHistorySchema = new mongoose.Schema(
+const historicalLiquidityRateSchema = new mongoose.Schema(
   {
     reserveId: {
       type: String,
@@ -21,6 +21,6 @@ const aaveHistorySchema = new mongoose.Schema(
   }
 );
 
-aaveHistorySchema.index({ timestamp: 1, symbol: 1 })
+historicalLiquidityRateSchema.index({ timestamp: 1, symbol: 1 })
 
-export const AaveHistory = mongoose.model<any>('AaveHistory', aaveHistorySchema)
+export const HistoricalLiquidityRate = mongoose.model<any>('AaveHistory', historicalLiquidityRateSchema)
