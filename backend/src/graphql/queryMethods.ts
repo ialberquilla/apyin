@@ -1,4 +1,4 @@
-import { GET_RESERVES, GET_HISTORICAL_RATE, GET_HISTORICAL_BALANCES } from './querys'
+import { GET_RESERVES, GET_HISTORICAL_RATE, GET_HISTORICAL_BALANCES, GET_GAS_PRICE } from './querys'
 import { request } from 'graphql-request'
 import config from '../config'
 import { BalanceHistory, BalanceChanges } from '../interfaces/models'
@@ -6,6 +6,11 @@ import { BalanceHistory, BalanceChanges } from '../interfaces/models'
 
 export const getReserves = async () => {
     return request(config.GRAPH_API_URL, GET_RESERVES)
+}
+
+
+export const getGasPrice = async () => {
+    return request(config.GRAPH_API_URL, GET_GAS_PRICE)
 }
 
 

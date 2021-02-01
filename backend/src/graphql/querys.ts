@@ -51,3 +51,19 @@ query getHistoricalBalances ($address: String!){
     }
   }
 }`
+
+export const GET_GAS_PRICE = `{
+  query getGasPrice {
+    prices(
+      first:1
+      orderDirection: desc
+      orderBy: timestamp
+      where:{
+        assetPair_ends_with : "FastGas/Gwei"
+      }
+  ){
+    id
+    price
+		timestamp    
+  }
+}`

@@ -15,13 +15,12 @@ export const calculateRates = async (wallet: string) => {
 
     for (const token of withIdle) {
         let ratesOfBalances = []
-        const { balancesChangesRates, bucketChangesRates } = await getRatesForTimeFrame(token.symbol, token.balanceChanges)
+        const { balancesChangesRates, totalRate } = await getRatesForTimeFrame(token.symbol, token.balanceChanges)
 
         for (const balanceChange of balancesChangesRates) {
 
                 if (balancesChangesRates.length > 0) {
                     const balancesChangesRatesAndTime = await setTimeInRate(balanceChange)
-                    console.log(balancesChangesRatesAndTime)
                     const totalRate = calculateTotalRate(balancesChangesRatesAndTime, balanceChange.value)
                     ratesOfBalances.push(totalRate)
                 }
@@ -29,6 +28,7 @@ export const calculateRates = async (wallet: string) => {
 
         const tokenMissingData = {
             token: token.symbol,
+            totalRate,
             ratesOfBalances
         }
         tokensMissingData.push(tokenMissingData)

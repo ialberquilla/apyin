@@ -2,24 +2,28 @@ import { getReserveHistory } from "../cache/reserve";
 import { BalanceChanges, RateChanges } from "../interfaces/models";
 import config from '../config'
 
-type BucketChangesRate = {
-    apyBucket: number,
-    startDate: number,
-    endDate?: number
-}
 
 export const getRatesForTimeFrame = async (symbol: string, balanceChanges: BalanceChanges[]) => {
     const rateshistory = await getReserveHistory(symbol)
     let balancesChangesRates = [...balanceChanges];
-    let bucketChangesRates: BucketChangesRate[] = [{
-        startDate: rateshistory[0].timestamp,
-        apyBucket: getApyBucket(rateshistory[0].liquidityRate)
-    }]
 
     const ratesLength = rateshistory.length
+    const now = Math.floor(Date.now() / 1000)
+    let totalRate = 0
 
     for (let index = 0; index < ratesLength; index++) {
         const timeFrameLength = balanceChanges.length
+        
+        let timeInRate
+        if (index < ratesLength -1) {
+            timeInRate = Number(rateshistory[index + 1].timestamp) - Number(rateshistory[index].timestamp)
+        } else {
+            timeInRate = Number(now) - rateshistory[ratesLength - 1].timestamp
+        }
+
+        let elementRate = timeInRate * ((Number(rateshistory[ratesLength-1].liquidityRate) / config.DECIMALS) /config.SECONDS_YEAR)
+
+        totalRate += elementRate
 
         for (let frameindex = 0; frameindex < timeFrameLength; frameindex++) {
             const initialTimestamp = balanceChanges[frameindex].timestamp
@@ -33,23 +37,16 @@ export const getRatesForTimeFrame = async (symbol: string, balanceChanges: Balan
                 balancesChangesRates[frameindex].rateChanges.push(rateApplied)
             }
         }
-        let lastBucketChangesRate = bucketChangesRates[bucketChangesRates.length - 1]
-        if (getApyBucket(rateshistory[index].liquidityRate) !== lastBucketChangesRate.apyBucket && index !== 0) {
-            bucketChangesRates[bucketChangesRates.length - 1] = { ...lastBucketChangesRate, endDate: rateshistory[index - 1].timestamp }
-            bucketChangesRates.push({ apyBucket: getApyBucket(rateshistory[index].liquidityRate), startDate: rateshistory[index].timestamp })
-        }
-    }
-    bucketChangesRates[bucketChangesRates.length - 1] = { ...bucketChangesRates[bucketChangesRates.length - 1], endDate: rateshistory[rateshistory.length - 1].timestamp }
 
-    return { balancesChangesRates, bucketChangesRates }
+    }
+
+    return { balancesChangesRates, totalRate }
 }
 
 
 export const setTimeInRate = (balanceChange: BalanceChanges) => {
 
     const lastIndex = balanceChange.rateChanges.length - 1
-
-    console.log(balanceChange.rateChanges)
 
     const ratesWithtime = balanceChange.rateChanges.map((element, index) => {
         let timeInRate

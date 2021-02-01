@@ -1,5 +1,7 @@
 import express from "express";
-import { initialLoad } from './cache/loadData'
+import { initialLoad  } from './cache/loadData'
+import { getReserveHistoryTimeFrame  } from './cache/reserve'
+
 import mongoose from 'mongoose'
 const app = express();
 
@@ -15,11 +17,12 @@ app.all('*', function (req, res, next) {
 initRoutes(app);
 app.use(express.urlencoded({ extended: true }));
 
-
 const port = 8080;
 
 mongoose.set('useCreateIndex', true)
 mongoose.connect('mongodb://159.89.3.75:27018/apyin', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(port, async () => {
     console.log(`Running at localhost:${port}`);
+    getReserveHistoryTimeFrame(1578506441, 1578506444, 'DAI').then(block => console.log(block))
+
 })).catch(e => console.log(e));
