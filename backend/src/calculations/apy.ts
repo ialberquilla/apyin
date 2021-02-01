@@ -1,10 +1,10 @@
-import { getReserveHistory } from "../cache/reserve";
 import { BalanceChanges, RateChanges } from "../interfaces/models";
 import config from '../config'
+import { HistoricalLiquidityRate } from '../schemata/reserveHistory'
 
 
 export const getRatesForTimeFrame = async (symbol: string, balanceChanges: BalanceChanges[]) => {
-    const rateshistory = await getReserveHistory(symbol)
+    const rateshistory = await HistoricalLiquidityRate.find({ symbol }).sort({ timestamp: 1 })
     let balancesChangesRates = [...balanceChanges];
 
     const ratesLength = rateshistory.length
@@ -13,15 +13,15 @@ export const getRatesForTimeFrame = async (symbol: string, balanceChanges: Balan
 
     for (let index = 0; index < ratesLength; index++) {
         const timeFrameLength = balanceChanges.length
-        
+
         let timeInRate
-        if (index < ratesLength -1) {
+        if (index < ratesLength - 1) {
             timeInRate = Number(rateshistory[index + 1].timestamp) - Number(rateshistory[index].timestamp)
         } else {
             timeInRate = Number(now) - rateshistory[ratesLength - 1].timestamp
         }
 
-        let elementRate = timeInRate * ((Number(rateshistory[ratesLength-1].liquidityRate) / config.DECIMALS) /config.SECONDS_YEAR)
+        let elementRate = timeInRate * ((Number(rateshistory[ratesLength - 1].liquidityRate) / config.DECIMALS) / config.SECONDS_YEAR)
 
         totalRate += elementRate
 
@@ -95,11 +95,3 @@ export const calculateTotalRate = (arrayRates, amount) => {
     return { missingRate: totalRate, tokensMissing: increment - amount, timeIdle }
 }
 
-
-function getApyPercentage (liquidityRate) {
-    return Number(liquidityRate) / config.DECIMALS * 100
-}
-
-function getApyBucket (liquidityRate) {
-    return Math.round(getApyPercentage(liquidityRate) / 20) * 20
-}

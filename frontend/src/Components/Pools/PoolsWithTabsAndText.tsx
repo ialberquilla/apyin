@@ -9,11 +9,9 @@ export type PoolsInput = {
   balance: any
   active: any
   setActive: any
-  periodActive: any
-  setPeriodActive: any
 }
 
-export function PoolsWithTabsAndText({ balance, active, setActive, periodActive, setPeriodActive }: PoolsInput) {
+export function PoolsWithTabsAndText({ balance, active, setActive }: PoolsInput) {
   const [activeTab, setActiveTab] = useState(tabs[0])
   return (
     <>
@@ -27,8 +25,6 @@ export function PoolsWithTabsAndText({ balance, active, setActive, periodActive,
             link={aaveLinkDictionary[balance.asset]}
             balance={balance}
             active={active}
-            setActive={setActive}
-            setPeriodActive={setPeriodActive}
           />
         </div>
       </div>
@@ -41,13 +37,9 @@ export function PoolsWithTabsAndText({ balance, active, setActive, periodActive,
             </div>
             <div className='info-space'>
               {`Your ${balance.asset} has been idle for ${Math.floor(balance.totalIdleTime / 3600)} hours and ${Math.floor((balance.totalIdleTime % 3600) / 60)} minutes. Lending would have increased it by ${balance.percentage.toPrecision(2)}%`}
-              <span className='info-space__clickable' onClick={() => setPeriodActive(balance.asset)}>Click here</span> for more information
             </div>
           </div>
         </div>
-      </div>
-      <div className={`${periodActive === balance.asset ? 'show' : ''} pools__content-wrapper`}>
-        hey!
       </div>
     </>
   )

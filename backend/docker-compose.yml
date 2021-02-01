@@ -6,3 +6,5 @@ services:
     ports:
       - 27018:27017
     restart: on-failure
+    volumes:
+    - .data/mongo:/data/db

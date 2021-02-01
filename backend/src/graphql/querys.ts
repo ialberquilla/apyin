@@ -3,13 +3,15 @@ query getReserves {
   reserves{
     id
     symbol
+    decimals
+    underlyingAsset
   }
 }
 `;
 
 
 export const GET_HISTORICAL_RATE = `
-query getHistoricalRate ($timestamp: Int!, $reserve: String!){   
+query getHistoricalRate ($timestamp: Int!, $reserve: String!){
     reserveParamsHistoryItems (
         first:1000, 
         where: {
@@ -30,6 +32,38 @@ query getHistoricalRate ($timestamp: Int!, $reserve: String!){
    }
 `;
 
+export const GET_HISTORICAL_ETH_PRICE = `
+  query getHistoricalEthPrice ($timestamp: Int!) {
+  usdEthPriceHistoryItems (
+        first:1000, 
+        where: {
+           timestamp_gt: $timestamp
+        }
+       orderBy: timestamp
+       orderDirection: asc
+       ) {
+    price
+    timestamp
+  }
+}
+`
+
+export const GET_HISTORICAL_ALT_PRICE = `
+  query getHistoricalAltPrices ($timestamp: Int!, $asset: String!) {
+  priceHistoryItems (
+    orderBy: timestamp,
+    orderDirection: asc,
+    first:1000,
+    where: {
+      asset: $asset,
+      timestamp_gt: $timestamp
+    }
+  ) {
+    timestamp
+    price
+  }
+}
+`
 
 export const GET_HISTORICAL_BALANCES = `
 query getHistoricalBalances ($address: String!){  

@@ -1,17 +1,15 @@
 import express from "express";
-import { initialLoad  } from './cache/loadData'
-import { getReserveHistoryTimeFrame  } from './cache/reserve'
-
 import mongoose from 'mongoose'
+import initRoutes from "./routes";
+import config from "./config";
+
 const app = express();
 
-import initRoutes from "./routes";
-
 app.all('*', function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
 });
 
 initRoutes(app);
@@ -20,9 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 const port = 8080;
 
 mongoose.set('useCreateIndex', true)
-mongoose.connect('mongodb://159.89.3.75:27018/apyin', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb://${config.dbHost}:27018/apyin`, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(port, async () => {
     console.log(`Running at localhost:${port}`);
-    getReserveHistoryTimeFrame(1578506441, 1578506444, 'DAI').then(block => console.log(block))
 
-})).catch(e => console.log(e));
+  })).catch(e => console.log(e));

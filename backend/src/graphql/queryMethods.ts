@@ -1,20 +1,23 @@
-import { GET_RESERVES, GET_HISTORICAL_RATE, GET_HISTORICAL_BALANCES, GET_GAS_PRICE } from './querys'
+import {
+    GET_RESERVES,
+    GET_HISTORICAL_RATE,
+    GET_GAS_PRICE,
+    GET_HISTORICAL_BALANCES, GET_HISTORICAL_ETH_PRICE, GET_HISTORICAL_ALT_PRICE
+} from './querys'
 import { request } from 'graphql-request'
 import config from '../config'
-import { BalanceHistory, BalanceChanges } from '../interfaces/models'
+import { BalanceHistory, BalanceChanges, AaveReserves, PriceHistoryItem } from '../interfaces/models'
 
 
-export const getReserves = async () => {
+export const getReserves = async (): Promise<AaveReserves> => {
     return request(config.GRAPH_API_URL, GET_RESERVES)
 }
-
 
 export const getGasPrice = async () => {
     return request(config.GRAPH_API_URL, GET_GAS_PRICE)
 }
 
-
-export const getHistoricalRate = async (reserve) => {
+export const getAllAvailableData = async (query: string, queryInput?: object) => {
     let areData = true
     let timestamp = 0
     let total = []
@@ -22,10 +25,10 @@ export const getHistoricalRate = async (reserve) => {
     while (areData) {
         const variables = {
             timestamp,
-            reserve
+            ...queryInput
         }
 
-        const result = await request(config.GRAPH_API_URL, GET_HISTORICAL_RATE, variables)
+        const result = await request(config.GRAPH_API_URL, query, variables)
         await new Promise(resolve => setTimeout(resolve, 50));
 
         const reservesCount = result.reserveParamsHistoryItems.length
@@ -38,6 +41,17 @@ export const getHistoricalRate = async (reserve) => {
     return total
 }
 
+export const getHistoricalRate = async (reserve) => {
+    return await getAllAvailableData(GET_HISTORICAL_RATE, { reserve })
+}
+
+export const getHistoricalEthPrice = async () => {
+    return await getAllAvailableData(GET_HISTORICAL_ETH_PRICE)
+}
+
+export const getHistoricalAltPrice = async (asset): Promise<PriceHistoryItem[]> => {
+    return await getAllAvailableData(GET_HISTORICAL_ALT_PRICE, { asset })
+}
 
 export const getAccountHistory = async (address: string): Promise<BalanceHistory[]> => {
     const variables = {
