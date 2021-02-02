@@ -25,7 +25,6 @@ export function PoolsWithTabsAndText({ balance, active, setActive }: PoolsInput)
             link={aaveLinkDictionary[balance.asset]}
             balance={balance}
             active={active}
-            setActive={setActive}
           />
         </div>
       </div>

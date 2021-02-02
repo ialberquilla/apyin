@@ -19,10 +19,13 @@ export function Table({ balances, active, setActive }: TableProps) {
         expandShrink='View More/Less'
         link='Action'
       />
+      <div className='table__scrollable'>
         {balances?.map((balance: any) => <div key={balance.asset}><PoolsWithTabsAndText balance={balance}
                                                                                         active={active}
-                                                                                        setActive={setActive}/>
+                                                                                        setActive={setActive}
+        />
         </div>)}
+      </div>
     </div>
   </div>
 }

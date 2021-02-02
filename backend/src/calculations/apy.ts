@@ -1,15 +1,31 @@
-import { getReserveHistory } from "../cache/reserve";
 import { BalanceChanges, RateChanges } from "../interfaces/models";
 import config from '../config'
+import { HistoricalLiquidityRate } from '../schemata/reserveHistory'
+import { getAltPrice } from "../db/prices";
+import { getEthPrice } from "../db/prices";
+
 
 export const getRatesForTimeFrame = async (symbol: string, balanceChanges: BalanceChanges[]) => {
-    const rateshistory = await getReserveHistory(symbol)
+    const rateshistory = await HistoricalLiquidityRate.find({ symbol }).sort({ timestamp: 1 })
     let balancesChangesRates = [...balanceChanges];
 
     const ratesLength = rateshistory.length
+    const now = Math.floor(Date.now() / 1000)
+    let totalRate = 0
 
     for (let index = 0; index < ratesLength; index++) {
         const timeFrameLength = balanceChanges.length
+
+        let timeInRate
+        if (index < ratesLength - 1) {
+            timeInRate = Number(rateshistory[index + 1].timestamp) - Number(rateshistory[index].timestamp)
+        } else {
+            timeInRate = Number(now) - rateshistory[ratesLength - 1].timestamp
+        }
+
+        let elementRate = timeInRate * ((Number(rateshistory[ratesLength - 1].liquidityRate) / config.DECIMALS) / config.SECONDS_YEAR)
+
+        totalRate += elementRate
 
         for (let frameindex = 0; frameindex < timeFrameLength; frameindex++) {
             const initialTimestamp = balanceChanges[frameindex].timestamp
@@ -23,18 +39,16 @@ export const getRatesForTimeFrame = async (symbol: string, balanceChanges: Balan
                 balancesChangesRates[frameindex].rateChanges.push(rateApplied)
             }
         }
+
     }
 
-    return balancesChangesRates
-
+    return { balancesChangesRates, totalRate }
 }
 
 
 export const setTimeInRate = (balanceChange: BalanceChanges) => {
 
     const lastIndex = balanceChange.rateChanges.length - 1
-
-    console.log(balanceChange.rateChanges)
 
     const ratesWithtime = balanceChange.rateChanges.map((element, index) => {
         let timeInRate
@@ -64,11 +78,12 @@ export const setTimeInRate = (balanceChange: BalanceChanges) => {
 
 
 
-export const calculateTotalRate = (arrayRates, amount) => {
+export const calculateTotalRate = async (arrayRates, amount, symbol) => {
     let totalRate = 0
     let increment
     let lastIncrement = amount
     let timeIdle = 0
+    let prices = []
 
     for (var i = 0; i < arrayRates.length; i++) {
         const ele = arrayRates[i]
@@ -77,8 +92,16 @@ export const calculateTotalRate = (arrayRates, amount) => {
         increment = Number(lastIncrement) + (Number(lastIncrement) * Number(elementRate))
         lastIncrement = increment
         timeIdle += ele.timeInRate
+        /*                 const tokenPrice = await getAltPrice(symbol, arrayRates[i].timestamp)
+                        if (tokenPrice[0]) {
+                            prices.push({
+                                usdIdle: tokenPrice[0].usdPrice * amount,
+                                usdDeposit: tokenPrice[0].usdPrice * increment
+                            })
+                        }  */
 
     }
 
-    return { missingRate: totalRate, tokensMissing: increment - amount, timeIdle }
+    return { missingRate: totalRate, tokensMissing: increment - amount, timeIdle, prices }
 }
+

@@ -1,37 +1,35 @@
-import { calculateIdleTime } from '../calculations/time'
-import { getRatesForTimeFrame, setTimeInRate, calculateTotalRate } from '../calculations/apy'
-import { getAccountHistory } from '../graphql/queryMethods'
-import { getCacheReserves } from '../cache/reserve'
-
+import { calculateIdleTime } from './time'
+import { getRatesForTimeFrame, setTimeInRate, calculateTotalRate } from './apy'
+import { getAccountHistory, getReserves } from '../graphql/queryMethods'
 
 export const calculateRates = async (wallet: string) => {
     const history = await getAccountHistory(wallet)
-    const reserves = await getCacheReserves()
+    const reserves = (await getReserves()).reserves
     const reserveSymbols = reserves.map(reserve => reserve.symbol)
     const filterHistory = history.filter(token => reserveSymbols.includes(token.symbol))
-    const withIdle = await calculateIdleTime(filterHistory)
+    const withIdle = calculateIdleTime(filterHistory)
 
     let tokensMissingData = []
 
     for (const token of withIdle) {
         let ratesOfBalances = []
-        const timeFramesRate = await getRatesForTimeFrame(token.symbol, token.balanceChanges)
+        const { balancesChangesRates, totalRate } = await getRatesForTimeFrame(token.symbol, token.balanceChanges)
 
-        for (const balanceChange of timeFramesRate) {
+        for (const balanceChange of balancesChangesRates) {
 
-                if (timeFramesRate.length > 0) {
-                    const timeFramesRateAndTime = await setTimeInRate(balanceChange)
-                    console.log(timeFramesRateAndTime)
-                    const totalRate = calculateTotalRate(timeFramesRateAndTime, balanceChange.value)
-                    ratesOfBalances.push(totalRate)
-                }
+            if (balancesChangesRates.length > 0) {
+                const balancesChangesRatesAndTime = await setTimeInRate(balanceChange)
+                const totalRate = await calculateTotalRate(balancesChangesRatesAndTime, balanceChange.value, token.symbol)
+                ratesOfBalances.push(totalRate)
+            }
         }
 
         const tokenMissingData = {
             token: token.symbol,
+            totalRate,
             ratesOfBalances
         }
-        tokensMissingData.push(tokenMissingData) 
+        tokensMissingData.push(tokenMissingData)
     }
 
     return tokensMissingData

@@ -1,9 +1,10 @@
 .tab-picker__tab {
     cursor: pointer;
-    height: 74px;
+    height: 75px;
     display: flex;
     align-items: center;
-    border: 1px solid #D83249;
+    border-left: 1px solid #D83249;
+    border-bottom: 1px solid #D83249;
     border-right: none;
     justify-content: center;
 }

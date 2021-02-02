@@ -7,13 +7,12 @@ export type RowInput = {
   link: any
   percentage: any
   usd: any
-  expandShrink?: any
   balance?: any
   active?: any
   setActive?: any
 }
 
-export function Row ({ asset, link, percentage, usd, expandShrink, balance, active, setActive }: RowInput) {
+export function Row({ asset, link, percentage, usd, balance, active, setActive }: RowInput) {
   return (
     <div className='row__outer-grid'>
       <div className={`row__internal ${active === balance.asset ? 'active' : ''}`}>
@@ -28,16 +27,18 @@ export function Row ({ asset, link, percentage, usd, expandShrink, balance, acti
             {usd}
           </div>
           <div className='row__expand-shrink'>
-            {asset === 'Asset' ? expandShrink : <div
-              className={`${active === balance.asset ? 'X' : ''} pools__croxx`}
+            <div
+              className={`${active === balance.asset ? 'X' : ''} row__croxx`}
             >
               <img
                 alt='Expand shrink symbol'
                 height='30px'
-                onClick={() => setActive(active === balance.asset ? '' : balance.asset)}
+                onClick={() => {
+                  setActive(active === balance.asset ? '' : balance.asset)
+                }}
                 src={Croxx}
               />
-            </div>}
+            </div>
           </div>
         </div>
       </div>

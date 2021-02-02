@@ -42,7 +42,8 @@ export const TimeChart = () => {
     margin: {
       l: 40,
       t: 40,
-      b: 40
+      b: 40,
+      r: 40
     },
     showlegend: true,
     legend: {
@@ -53,7 +54,7 @@ export const TimeChart = () => {
     },
     xaxis: {
       autorange: true,
-      color: '#D83249',
+      color: '#FFF',
       range: ['2015-02-17', '2017-02-16'],
       rangeselector: {
         buttons: {visible: false}
@@ -62,7 +63,7 @@ export const TimeChart = () => {
       type: 'date'
     },
     yaxis: {
-      color: '#D83249',
+      color: '#FFF',
       autorange: true,
       range: [86.8700008333, 138.870004167],
       type: 'linear'
@@ -74,6 +75,7 @@ export const TimeChart = () => {
     data={data}
   // @ts-ignore
   layout={layout}
+    style={{ width: '100%' }}
   config={{displayModeBar: false}}
   />
 }
