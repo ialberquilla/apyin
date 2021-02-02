@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 
 const aaveReserveSchema = new mongoose.Schema(
   {
+    id: {
+      type: String,
+      required: true,
+    },
     decimals: {
       type: Number,
       required: true,

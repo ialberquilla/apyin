@@ -1,6 +1,8 @@
 import { BalanceChanges, RateChanges } from "../interfaces/models";
 import config from '../config'
 import { HistoricalLiquidityRate } from '../schemata/reserveHistory'
+import { getAltPrice } from "../db/prices";
+import { getEthPrice } from "../db/prices";
 
 
 export const getRatesForTimeFrame = async (symbol: string, balanceChanges: BalanceChanges[]) => {
@@ -76,11 +78,12 @@ export const setTimeInRate = (balanceChange: BalanceChanges) => {
 
 
 
-export const calculateTotalRate = (arrayRates, amount) => {
+export const calculateTotalRate = async (arrayRates, amount, symbol) => {
     let totalRate = 0
     let increment
     let lastIncrement = amount
     let timeIdle = 0
+    let prices = []
 
     for (var i = 0; i < arrayRates.length; i++) {
         const ele = arrayRates[i]
@@ -89,9 +92,16 @@ export const calculateTotalRate = (arrayRates, amount) => {
         increment = Number(lastIncrement) + (Number(lastIncrement) * Number(elementRate))
         lastIncrement = increment
         timeIdle += ele.timeInRate
+        /*                 const tokenPrice = await getAltPrice(symbol, arrayRates[i].timestamp)
+                        if (tokenPrice[0]) {
+                            prices.push({
+                                usdIdle: tokenPrice[0].usdPrice * amount,
+                                usdDeposit: tokenPrice[0].usdPrice * increment
+                            })
+                        }  */
 
     }
 
-    return { missingRate: totalRate, tokensMissing: increment - amount, timeIdle }
+    return { missingRate: totalRate, tokensMissing: increment - amount, timeIdle, prices }
 }
 

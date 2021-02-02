@@ -14,6 +14,7 @@ mongoose.set('useCreateIndex', true);
   for (const reserve of reserves) {
     console.log(`Getting historic data for reserve ${reserve.symbol}`)
     const reserveHistory = await getHistoricalRate(reserve.id)
+    console.log(reserve.id)
     const aaveHistory = reserveHistory.map(point => ({
       liquidityRate: point.liquidityRate,
       reserveId: point.reserve.id,

@@ -6,6 +6,8 @@ import { AltPrice } from '../schemata/altPrice'
 import config from "../config";
 
 mongoose.set('useCreateIndex', true)
+mongoose.set('useFindAndModify', false);
+
 
 async function getClosestEthPrice(ofTimestamp: number) {
   const laterTimestamp = await EthPrice.find({ timestamp: { $gte: ofTimestamp } }).limit(1)

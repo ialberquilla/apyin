@@ -6,6 +6,7 @@ import config from "../config";
 const theDayEtherChanged = 1584517857
 
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 (async () => {
   await mongoose.connect(`mongodb://${config.dbHost}:27018/apyin`, { useNewUrlParser: true, useUnifiedTopology: true })

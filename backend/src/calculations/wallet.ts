@@ -19,7 +19,7 @@ export const calculateRates = async (wallet: string) => {
 
             if (balancesChangesRates.length > 0) {
                 const balancesChangesRatesAndTime = await setTimeInRate(balanceChange)
-                const totalRate = calculateTotalRate(balancesChangesRatesAndTime, balanceChange.value)
+                const totalRate = await calculateTotalRate(balancesChangesRatesAndTime, balanceChange.value, token.symbol)
                 ratesOfBalances.push(totalRate)
             }
         }
