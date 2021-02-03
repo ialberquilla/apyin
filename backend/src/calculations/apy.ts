@@ -83,24 +83,31 @@ export const calculateTotalRate = async (arrayRates, amount, symbol) => {
     let increment
     let lastIncrement = amount
     let timeIdle = 0
+    let lastTimestamp = 0
     let prices = []
 
     for (var i = 0; i < arrayRates.length; i++) {
+
         const ele = arrayRates[i]
         let elementRate = Number(ele.timeInRate) * (Number(ele.liquidityRateDec) / config.SECONDS_YEAR)
         totalRate += elementRate
         increment = Number(lastIncrement) + (Number(lastIncrement) * Number(elementRate))
         lastIncrement = increment
         timeIdle += ele.timeInRate
-        /*                 const tokenPrice = await getAltPrice(symbol, arrayRates[i].timestamp)
-                        if (tokenPrice[0]) {
-                            prices.push({
-                                usdIdle: tokenPrice[0].usdPrice * amount,
-                                usdDeposit: tokenPrice[0].usdPrice * increment
-                            })
-                        }  */
 
+        if (lastTimestamp == 0 || arrayRates[i].timestamp - lastTimestamp > config.SECONDS_DAY) {
+            const tokenPrice = symbol === 'ETH' ?
+                await getEthPrice(arrayRates[i].timestamp) :
+                await getAltPrice(symbol, arrayRates[i].timestamp)
+            lastTimestamp = arrayRates[i].timestamp
+            prices.push({
+                usdIdle: amount * tokenPrice,
+                usdDeposit: increment * tokenPrice,
+                timestamp: arrayRates[i].timestamp
+            })
+        }
     }
+
 
     return { missingRate: totalRate, tokensMissing: increment - amount, timeIdle, prices }
 }

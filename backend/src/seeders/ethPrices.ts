@@ -15,9 +15,9 @@ mongoose.set('useFindAndModify', false);
   console.log('got them')
   const ethPriceHistory = ethPriceHistoryData.map(point => ({
     timestamp: point.timestamp,
-    usdPrice: point.timestamp <= theDayEtherChanged ? point.price * Math.pow(10, -8) : 1 / point.price * Math.pow(10, 18)
+    usdPrice: point.timestamp <= theDayEtherChanged ? point.price / 1e8 : (1 / 1e18) / point.price
   }))
   console.log(`processed ${ethPriceHistory.length} prices`)
-  await Promise.all(ethPriceHistory.map(point => EthPrice.findOneAndUpdate({ timestamp: point.timestamp }, point, { upsert: true })))
+  await Promise.all(ethPriceHistory.map(point => EthPrice.updateOne({ timestamp: point.timestamp }, point, { upsert: true })))
   console.log('finished')
 })()

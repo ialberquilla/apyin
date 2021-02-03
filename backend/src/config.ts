@@ -5,6 +5,7 @@ const config = {
     BIT_QUERY_URL: 'https://graphql.bitquery.io',
     DECIMALS: 1e27,
     SECONDS_YEAR: 3.154e+7,
+    SECONDS_DAY: 86400,
     dbHost: process.env.DB_HOST || 'localhost'
 };
 export default config;
