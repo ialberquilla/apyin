@@ -25,6 +25,7 @@ export function PoolsWithTabsAndText({ balance, active, setActive }: PoolsInput)
             link={aaveLinkDictionary[balance.asset]}
             balance={balance}
             active={active}
+            setActive={setActive}
           />
         </div>
       </div>
@@ -33,7 +34,7 @@ export function PoolsWithTabsAndText({ balance, active, setActive }: PoolsInput)
           <div className='pools__container'>
             <Tabs activeTab={activeTab} setActiveTab={setActiveTab}/>
             <div className='pool__chart'>
-              <TimeChart/>
+              <TimeChart balance={balance}/>
             </div>
             <div className='info-space'>
               {`Your ${balance.asset} has been idle for ${Math.floor(balance.totalIdleTime / 3600)} hours and ${Math.floor((balance.totalIdleTime % 3600) / 60)} minutes. Lending would have increased it by ${balance.percentage.toPrecision(2)}%`}

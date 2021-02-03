@@ -9621,7 +9621,8 @@ export const App = () => {
               return curr.missingRate !== 0 ? curr.missingRate + acc : acc
             }, 0) / (nonZeroMissingRates || 1) * 100,
             usd: balance.ratesOfBalances.reduce((acc: number, curr: any) => curr.tokensMissing ? curr.tokensMissing + acc : acc, 0),
-            totalIdleTime: balance.ratesOfBalances.reduce((acc: number, curr: any) => curr.timeIdle ? curr.timeIdle + acc : acc, 0)
+            totalIdleTime: balance.ratesOfBalances.reduce((acc: number, curr: any) => curr.timeIdle ? curr.timeIdle + acc : acc, 0),
+            gains: balance.ratesOfBalances.reduce((acc: any, curr: any) => [...acc, ...curr.prices], [])
           }
         })
       })

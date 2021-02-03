@@ -1,40 +1,33 @@
 /* global Plotly:true */
 
 import React, {useEffect, useState} from 'react';
-import csv from 'csvtojson/index'
 import createPlotlyComponent from 'react-plotly.js/factory'
 
 // @ts-ignore
 const Plot = createPlotlyComponent(Plotly);
+type Props = {
+  balance: any
+}
 
-export const TimeChart = () => {
+export const TimeChart = ({ balance }: Props) => {
   const [data, setData] = useState<any>()
+  console.log(balance)
   useEffect(() => {
-
-    const fetchData = async () => {
-      const result = await fetch('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
-      const data = await result.text()
-      csv().fromString(data).then((data: any) => {
-        return setData([{
-          type: "scatter",
-          mode: "lines",
-          name: 'USD with aave',
-          x: data.map((datum: any) => datum.Date),
-          y: data.map((datum: any) => datum.AAPL.High),
-          line: {color: '#9284c4'}
-        }, {
-          type: "scatter",
-          mode: "lines",
-          name: 'USD without aave',
-          x: data.map((datum: any) => datum.Date),
-          y: data.map((datum: any) => datum.AAPL.Low),
-          line: {color: '#D83249'}
-        }])
-      })
-      return data
-    }
-
-    fetchData()
+    setData([{
+      type: "scatter",
+      mode: "lines",
+      name: 'USD with aave',
+      x: balance.gains.map((datum: any) => new Date(datum.timestamp * 1000).toISOString().split('T')[0]),
+      y: balance.gains.map((datum: any) => datum.usdDeposit),
+      line: {color: '#9284c4'}
+    }, {
+      type: "scatter",
+      mode: "lines",
+      name: 'USD without aave',
+      x: balance.gains.map((datum: any) => new Date(datum.timestamp * 1000).toISOString().split('T')[0]),
+      y: balance.gains.map((datum: any) => datum.usdIdle),
+      line: {color: '#D83249'}
+    }])
   }, [])
 
   const layout = {
