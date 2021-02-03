@@ -9,28 +9,24 @@ export const calculateRates = async (wallet: string) => {
     const filterHistory = history.filter(token => reserveSymbols.includes(token.symbol))
     const withIdle = calculateIdleTime(filterHistory)
 
-    let tokensMissingData = []
-
-    for (const token of withIdle) {
-        let ratesOfBalances = []
+    const tokensMissingData = await Promise.all(withIdle.map(async (token: any) => {
         const { balancesChangesRates, totalRate } = await getRatesForTimeFrame(token.symbol, token.balanceChanges)
 
-        for (const balanceChange of balancesChangesRates) {
+        const rates = await Promise.all(balancesChangesRates.map(async (balanceChange) => {
+            const balancesChangesRatesAndTime = await setTimeInRate(balanceChange)
+            const totalRate = await calculateTotalRate(balancesChangesRatesAndTime, balanceChange.value, token.symbol)
+            return totalRate
+        }))
 
-            if (balancesChangesRates.length > 0) {
-                const balancesChangesRatesAndTime = await setTimeInRate(balanceChange)
-                const totalRate = await calculateTotalRate(balancesChangesRatesAndTime, balanceChange.value, token.symbol)
-                ratesOfBalances.push(totalRate)
-            }
-        }
+        const ratesOfBalances = rates.filter(ele => ele.missingRate > 0)
 
         const tokenMissingData = {
             token: token.symbol,
             totalRate,
             ratesOfBalances
         }
-        tokensMissingData.push(tokenMissingData)
-    }
+        return tokenMissingData
+    }))
 
     return tokensMissingData
 }

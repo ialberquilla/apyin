@@ -32,7 +32,7 @@ async function getClosestEthPrice(ofTimestamp: number) {
           symbol: reserve.symbol,
           decimals: reserve.decimals,
           ethPrice: price.price,
-          usdPrice: closestEthPrice * price.price * Math.pow(10, -reserve.decimals)
+          usdPrice: closestEthPrice * (price.price / 1e18)
         }
       }))
       console.log(`saving data for ${altPrices.length} points for ${reserve.symbol}`)

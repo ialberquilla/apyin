@@ -31,11 +31,11 @@ export const getAllAvailableData = async (query: string, queryInput?: object) =>
         const result = await request(config.GRAPH_API_URL, query, variables)
         await new Promise(resolve => setTimeout(resolve, 50));
 
-        const reservesCount = result.reserveParamsHistoryItems.length
+        const reservesCount = result.priceHistoryItems.length
         areData = reservesCount > 0
-        if (areData) timestamp = result.reserveParamsHistoryItems[reservesCount - 1].timestamp
+        if (areData) timestamp = result.priceHistoryItems[reservesCount - 1].timestamp
 
-        total = [...total, ...result.reserveParamsHistoryItems]
+        total = [...total, ...result.priceHistoryItems]
     }
 
     return total
