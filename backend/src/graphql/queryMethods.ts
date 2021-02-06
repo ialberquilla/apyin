@@ -17,7 +17,7 @@ export const getGasPrice = async () => {
     return request(config.GRAPH_API_URL, GET_GAS_PRICE)
 }
 
-export const getAllAvailableData = async (query: string, queryInput?: object) => {
+export const getAllAvailableData = async (query: string, queryName: string, queryInput?: object) => {
     let areData = true
     let timestamp = 0
     let total = []
@@ -31,7 +31,7 @@ export const getAllAvailableData = async (query: string, queryInput?: object) =>
         const result = await request(config.GRAPH_API_URL, query, variables)
         await new Promise(resolve => setTimeout(resolve, 50));
 
-        const reservesCount = result.priceHistoryItems.length
+        const reservesCount = result[queryName].length
         areData = reservesCount > 0
         if (areData) timestamp = result.priceHistoryItems[reservesCount - 1].timestamp
 
@@ -42,15 +42,15 @@ export const getAllAvailableData = async (query: string, queryInput?: object) =>
 }
 
 export const getHistoricalRate = async (reserve) => {
-    return await getAllAvailableData(GET_HISTORICAL_RATE, { reserve })
+    return await getAllAvailableData(GET_HISTORICAL_RATE, 'reserveParamsHistoryItems', { reserve })
 }
 
 export const getHistoricalEthPrice = async () => {
-    return await getAllAvailableData(GET_HISTORICAL_ETH_PRICE)
+    return await getAllAvailableData(GET_HISTORICAL_ETH_PRICE, 'usdEthPriceHistoryItems')
 }
 
 export const getHistoricalAltPrice = async (asset): Promise<PriceHistoryItem[]> => {
-    return await getAllAvailableData(GET_HISTORICAL_ALT_PRICE, { asset })
+    return await getAllAvailableData(GET_HISTORICAL_ALT_PRICE, 'priceHistoryItems', { asset })
 }
 
 export const getAccountHistory = async (address: string): Promise<BalanceHistory[]> => {

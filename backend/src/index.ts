@@ -2,6 +2,9 @@ import express from "express";
 import mongoose from 'mongoose'
 import initRoutes from "./routes";
 import config from "./config";
+// import { redirectLogs } from './helpers/redirectLogs'
+//
+// redirectLogs()
 
 const app = express();
 
