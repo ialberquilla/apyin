@@ -20,7 +20,7 @@ export function Row({ asset, link, assetLogo, percentage, usd, balance, active, 
         <div className='row__grid'>
           <div className='row__assets'>
             <div></div>
-            <img src={assetLogo} alt={`${asset} logo`} height='20px'/>
+            <img src={assetLogo} alt={`${asset} logo`} height='24px'/>
             {asset}
             <div></div>
           </div>

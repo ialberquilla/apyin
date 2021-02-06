@@ -11,14 +11,14 @@ export function Header({ ethEnabled, account }: HeaderProps) {
     <div className='header__content'>
       <div className='header__logo'>
         <img alt='Ape Logo' src={Logo} />
-        <span>APYin</span>
+        <span>&nbsp;APYin</span>
       </div>
       <span className='header__white'>Aave Historical Returns on Holdings Calculator</span>
       <div
         onClick={() => ethEnabled()}
         className='header__wallet'
       >
-        {account ? `${account.slice(0, 5)}..${account.slice(-4)}` : 'Connect Wallet'}
+        {account ? `${account.slice(0, 5)}..${account.slice(-4)}` : <div className='header__connect-wallet'>Connect Wallet</div>}
       </div>
     </div>
   </div>
