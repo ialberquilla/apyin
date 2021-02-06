@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './styles.css'
 import { Row } from '../Row/Row'
 import { TimeChart } from '../TimeChart'
 import { aaveLinkDictionary } from '../../assets/aaveLinkDictionary'
-import { tabs, Tabs } from '../Tabs/Tabs'
 
 export type PoolsInput = {
   balance: any
@@ -11,18 +10,17 @@ export type PoolsInput = {
   setActive: any
 }
 
-export function PoolsWithTabsAndText({ balance, active, setActive }: PoolsInput) {
-  const [activeTab, setActiveTab] = useState(tabs[0])
+export function Pools({ balance, active, setActive }: PoolsInput) {
   return (
     <>
       <div className='pools__heading'>
         <div className='pools__container'>
           <Row
             asset={balance.asset}
+            assetLogo={balance.logo}
             percentage={balance.percentage.toPrecision(5)}
             usd={balance.usd.toPrecision(5)}
-            // @ts-ignore
-            link={aaveLinkDictionary[balance.asset]}
+            link={aaveLinkDictionary[balance.asset as keyof typeof aaveLinkDictionary]}
             balance={balance}
             active={active}
             setActive={setActive}
@@ -32,7 +30,11 @@ export function PoolsWithTabsAndText({ balance, active, setActive }: PoolsInput)
       <div className={`${active === balance.asset ? 'show' : ''} pools__content-wrapper`}>
         <div className='pools__content'>
           <div className='pools__container'>
-            <Tabs activeTab={activeTab} setActiveTab={setActiveTab}/>
+            <div className='fomo-space'>
+              <div className='fomo-space-content'>
+                Look at all that sweet USD you could have earned by lending your {balance.asset} on Aave. I mean, come on!
+              </div>
+            </div>
             <div className='pool__chart'>
               <TimeChart balance={balance}/>
             </div>

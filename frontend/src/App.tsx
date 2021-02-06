@@ -4,6 +4,7 @@ import { Loader } from './Components/Loader/Loader'
 import { Header } from './Components/Header/Header'
 import './App.css'
 import CrabMonkey from './assets/CrabMonkey.png'
+import { tokenLogos } from './assets/tokenLogos'
 
 let lastMove = 0
 
@@ -9593,7 +9594,7 @@ export const App = () => {
   const [active, setActive] = useState('')
   const [loader, setLoader] = useState(true)
   const [account, setAccount] = useState<string | undefined>()
-  const [balances, setBalances] = useState<undefined|any[]>()
+  const [balances, setBalances] = useState<undefined | any[]>()
 
   window.ethereum.on('accountsChanged', (accounts: any) => {
     if (Date.now() - lastMove > 1000) {
@@ -9616,6 +9617,7 @@ export const App = () => {
           let nonZeroMissingRates = 0
           return {
             asset: balance.token,
+            logo: tokenLogos[balance.token as keyof typeof tokenLogos],
             percentage: balance.ratesOfBalances.reduce((acc: number, curr: any) => {
               curr.missingRate !== 0 && nonZeroMissingRates++
               return curr.missingRate !== 0 ? curr.missingRate + acc : acc
@@ -9668,7 +9670,7 @@ export const App = () => {
       </div>
       {loader && <Loader/>}
       <Header ethEnabled={ethEnabled} account={account}/>
-      <Table balances={balances} active={active} setActive={setActive} />
+      <Table balances={balances} active={active} setActive={setActive}/>
     </div>
   )
 }

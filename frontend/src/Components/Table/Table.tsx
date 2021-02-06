@@ -1,5 +1,5 @@
 import React from 'react'
-import { PoolsWithTabsAndText } from '../Pools/PoolsWithTabsAndText'
+import { Pools } from '../Pools/Pools'
 import './styles.css'
 import { Label } from '../Label/Label'
 
@@ -20,9 +20,9 @@ export function Table({ balances, active, setActive }: TableProps) {
         link='Action'
       />
       <div className='table__scrollable'>
-        {balances?.map((balance: any) => <div key={balance.asset}><PoolsWithTabsAndText balance={balance}
-                                                                                        active={active}
-                                                                                        setActive={setActive}
+        {balances?.map((balance: any) => <div key={balance.asset}><Pools balance={balance}
+                                                                         active={active}
+                                                                         setActive={setActive}
         />
         </div>)}
       </div>

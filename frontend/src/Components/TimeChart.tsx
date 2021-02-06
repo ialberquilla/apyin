@@ -11,7 +11,6 @@ type Props = {
 
 export const TimeChart = ({ balance }: Props) => {
   const [data, setData] = useState<any>()
-  console.log(balance)
   useEffect(() => {
     setData([{
       type: "scatter",
@@ -42,7 +41,7 @@ export const TimeChart = ({ balance }: Props) => {
     legend: {
       x: .7,
       xanchor: 'right',
-      y: 1,
+      y: 1.1,
       orientation: 'h'
     },
     xaxis: {
@@ -52,7 +51,7 @@ export const TimeChart = ({ balance }: Props) => {
       rangeselector: {
         buttons: {visible: false}
       },
-      rangeslider: {range: ['2015-02-17', '2017-02-16']},
+      rangeslider: {range: [new Date(balance.gains[0].timestamp * 1000).toISOString().split('T')[0], '2017-02-16']},
       type: 'date'
     },
     yaxis: {

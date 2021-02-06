@@ -5,6 +5,7 @@ import Croxx from '../../assets/croxx.svg'
 export type RowInput = {
   asset: any
   link: any
+  assetLogo: string
   percentage: any
   usd: any
   balance?: any
@@ -12,13 +13,16 @@ export type RowInput = {
   setActive?: any
 }
 
-export function Row({ asset, link, percentage, usd, balance, active, setActive }: RowInput) {
+export function Row({ asset, link, assetLogo, percentage, usd, balance, active, setActive }: RowInput) {
   return (
     <div className='row__outer-grid'>
       <div className={`row__internal ${active === balance.asset ? 'active' : ''}`}>
         <div className='row__grid'>
           <div className='row__assets'>
+            <div></div>
+            <img src={assetLogo} alt={`${asset} logo`} height='20px'/>
             {asset}
+            <div></div>
           </div>
           <div className='row__percentage'>
             {percentage}
@@ -42,7 +46,7 @@ export function Row({ asset, link, percentage, usd, balance, active, setActive }
           </div>
         </div>
       </div>
-      <div className='row__link-wrapper'>
+      <div className={`row__link-wrapper ${active === balance.asset ? 'active' : ''}`}>
         <a
           className='row__link'
           href={link}

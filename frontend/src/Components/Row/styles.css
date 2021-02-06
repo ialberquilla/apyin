@@ -1,5 +1,6 @@
 .row__outer-grid {
     display: grid;
+    background: #130545;
     grid-template-columns: 5.5fr 1fr;
     width: 100%;
 }
@@ -29,9 +30,9 @@
 
 .row__assets {
     min-height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    align-content: center;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
 }
 
 .row__percentage {
@@ -57,11 +58,16 @@
 
 .row__link-wrapper {
     min-height: 48px;
-    background-color: #111112;
+    background: #130545;
+    transition: all 600ms ease-in-out;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+
+.row__link-wrapper.active {
+    background: #250989;
 }
 
 .row__link {
